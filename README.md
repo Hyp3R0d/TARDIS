@@ -1,5 +1,7 @@
 # TARDIS
 
+[GitHub Repository](https://github.com/Hyp3R0d/TARDIS) · [main branch](https://github.com/Hyp3R0d/TARDIS/tree/main)
+
 ## Transport-Aligned Residual Diffusion in Innovation Subspaces
 
 TARDIS 是一个面向连续视频生成的完整工程：GPU 服务端负责训练、验证、评测和 prompt-only 推理；`web-server` 提供轻量 HTTP 服务和 nginx 前置，可作为 SSH 反向代理服务的运维前置；`tardis-client` 提供可在 Windows 上运行的 Electron 桌面创作客户端。
@@ -18,11 +20,11 @@ TARDIS 是一个面向连续视频生成的完整工程：GPU 服务端负责训
 
 | 训练与服务端 | Web/SSH 反向代理服务 | 推理评测 |
 | --- | --- | --- |
-| ![TARDIS training console](docs/demo/runtime/training-console.gif) | ![TARDIS web bridge](docs/demo/runtime/web-bridge.gif) | ![TARDIS inference console](docs/demo/runtime/inference-console.gif) |
+| ![TARDIS training console](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/runtime/training-console.gif) | ![TARDIS web bridge](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/runtime/web-bridge.gif) | ![TARDIS inference console](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/runtime/inference-console.gif) |
 
 桌面端创作流程（参考图预览、提交、轮询和结果归档）：
 
-![TARDIS Studio desktop walkthrough](docs/demo/client/tardis-desktop-walkthrough.gif)
+![TARDIS Studio desktop walkthrough](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/client/tardis-desktop-walkthrough.gif)
 
 客户端静态演示截图：
 
@@ -422,31 +424,52 @@ GET http://127.0.0.1:8787/api/generations/<task-id>
 
 终态为 `PROCESSING`、`SUCCESS` 或 `FAIL`。云端 `videoUrl`/`coverUrl` 是临时地址，客户端成功后会立即下载到本地归档。完整字段约束见 [tardis-client/server/API_CONTRACT.md](tardis-client/server/API_CONTRACT.md)。
 
-## 生成效果展示
+## 推理视觉结果（主要展示）
 
-### 同一 prompt 的模型对照与多场景补充
+本节集中展示 TARDIS 的真实推理结果，覆盖六类独立场景、同一 prompt 的五个外部模型对照，以及 12 个批量 rollout。所有帧均来自交付证据包或 `document_materials/perform/videos_20s/` 的实机结果；clean/annotated 仅用于可读性和时序质量检查，不替代完整 test split 的数值评测。annotated 帧中的彩色框标出人物、物体和场景区域，并给出 LPIPS/TC 观察标签。
 
-以下 clean 帧来自论文精简证据包，统一为 1280×720 画布；它们用于展示视觉风格和时序质量，不替代正式数值评测。`TARDIS` annotated 副本保留人物/物体/场景框和 LPIPS/TC 解释标签。展示样例改用未在 README 前版出现的 `s13_gongbi_river_umbrella`、`s12_scifi_astronaut_capsule` 和 `s14_pencil_cafe`。
+### 1. 多场景 TARDIS 输出
 
-| TARDIS clean: gongbi river | TARDIS annotated: gongbi river |
+同一套推理链路在水墨、工笔、动画、科幻实验室、太空舱和铅笔画等风格上保持主体、背景与运动结构。每行左侧为 clean 帧，右侧为对应的可解释 annotated 帧。
+
+| 场景 | TARDIS clean | TARDIS annotated |
+| --- | --- | --- |
+| Ink-wash courtyard | ![TARDIS clean ink-wash courtyard](docs/demo/quality/tardis_s01_ink_wash_courtyard_clean.png) | ![TARDIS annotated ink-wash courtyard](docs/demo/quality/tardis_s01_ink_wash_courtyard_annotated.png) |
+| Anime bamboo fight | ![TARDIS clean anime bamboo fight](docs/demo/quality/tardis_s07_anime_bamboo_fight_clean.png) | ![TARDIS annotated anime bamboo fight](docs/demo/quality/tardis_s07_anime_bamboo_fight_annotated.png) |
+| PVC laboratory | ![TARDIS clean PVC laboratory](docs/demo/quality/tardis_s10_pvc_lab_clean.png) | ![TARDIS annotated PVC laboratory](docs/demo/quality/tardis_s10_pvc_lab_annotated.png) |
+| Astronaut capsule | ![TARDIS clean astronaut capsule](docs/demo/quality/tardis_s12_scifi_astronaut_capsule_clean.png) | ![TARDIS annotated astronaut capsule](docs/demo/quality/tardis_s12_scifi_astronaut_capsule_annotated.png) |
+| Gongbi river umbrella | ![TARDIS clean gongbi river umbrella](docs/demo/quality/tardis_s13_gongbi_river_umbrella_clean.png) | ![TARDIS annotated gongbi river umbrella](docs/demo/quality/tardis_s13_gongbi_river_umbrella_annotated.png) |
+| Pencil cafe | ![TARDIS clean pencil cafe](docs/demo/quality/tardis_s14_pencil_cafe_clean.png) | ![TARDIS annotated pencil cafe](docs/demo/quality/tardis_s14_pencil_cafe_annotated.png) |
+
+这些配对图强调两个互补观察：clean 帧用于判断风格、构图和细节，annotated 帧用于定位 LPIPS 变化集中在哪些局部，以及 TC 是否在主体和背景之间保持一致。模型架构、指标定义和完整实验协议见论文与附录；这里保留可直接打开的原始 PNG，便于放大检查。
+
+### 2. 同一 prompt 的外部模型对照
+
+下面两组使用相同 prompt 和画布条件，分别对应 `s01_ink_wash_courtyard` 与 `s13_gongbi_river_umbrella`。表中同时列出 TARDIS 和五个视觉对比模型，避免只展示单一场景或单一风格。
+
+#### Ink-wash courtyard
+
+| 模型 | clean frame |
 | --- | --- |
-| ![TARDIS clean gongbi river umbrella](docs/demo/quality/tardis_s13_gongbi_river_umbrella_clean.png) | ![TARDIS annotated gongbi river umbrella](docs/demo/quality/tardis_s13_gongbi_river_umbrella_annotated.png) |
+| **TARDIS** | ![TARDIS ink-wash courtyard comparison](docs/demo/quality/tardis_s01_ink_wash_courtyard_clean.png) |
+| ZeroScope v2 576w | ![ZeroScope ink-wash courtyard](docs/demo/quality/zeroscope_s01_ink_wash_courtyard.png) |
+| Pyramid Flow miniFLUX | ![Pyramid Flow ink-wash courtyard](docs/demo/quality/pyramidflow_s01_ink_wash_courtyard.png) |
+| CogVideoX-2B | ![CogVideoX ink-wash courtyard](docs/demo/quality/cogvideox_s01_ink_wash_courtyard.png) |
+| ModelScope Text-to-Video 1.7B | ![ModelScope ink-wash courtyard](docs/demo/quality/modelscope_s01_ink_wash_courtyard.png) |
+| Wan2.1 T2V 1.3B | ![Wan2.1 ink-wash courtyard](docs/demo/quality/wan21_s01_ink_wash_courtyard.png) |
 
-| TARDIS clean: astronaut capsule | TARDIS annotated: astronaut capsule |
+#### Gongbi river umbrella
+
+| 模型 | clean frame |
 | --- | --- |
-| ![TARDIS clean astronaut capsule](docs/demo/quality/tardis_s12_scifi_astronaut_capsule_clean.png) | ![TARDIS annotated astronaut capsule](docs/demo/quality/tardis_s12_scifi_astronaut_capsule_annotated.png) |
+| **TARDIS** | ![TARDIS gongbi river comparison](docs/demo/quality/tardis_s13_gongbi_river_umbrella_clean.png) |
+| ZeroScope v2 576w | ![ZeroScope gongbi river](docs/demo/quality/zeroscope_s13_gongbi_river_umbrella.png) |
+| Pyramid Flow miniFLUX | ![Pyramid Flow gongbi river](docs/demo/quality/pyramidflow_s13_gongbi_river_umbrella.png) |
+| CogVideoX-2B | ![CogVideoX gongbi river](docs/demo/quality/cogvideox_s13_gongbi_river_umbrella.png) |
+| ModelScope Text-to-Video 1.7B | ![ModelScope gongbi river](docs/demo/quality/modelscope_s13_gongbi_river_umbrella.png) |
+| Wan2.1 T2V 1.3B | ![Wan2.1 gongbi river](docs/demo/quality/wan21_s13_gongbi_river_umbrella.png) |
 
-| TARDIS clean: pencil cafe | TARDIS annotated: pencil cafe |
-| --- | --- |
-| ![TARDIS clean pencil cafe](docs/demo/quality/tardis_s14_pencil_cafe_clean.png) | ![TARDIS annotated pencil cafe](docs/demo/quality/tardis_s14_pencil_cafe_annotated.png) |
-
-同一 `s13_gongbi_river_umbrella` 条件下的外部 T2V clean 帧：
-
-| TARDIS 推理服务端 / 外部基线 A | TARDIS 推理服务端 / 外部基线 B | TARDIS 推理服务端 / 外部基线 C | TARDIS 推理服务端 / 外部基线 D | TARDIS 推理服务端 / 外部基线 E |
-| --- | --- | --- | --- | --- |
-| ![TARDIS inference server baseline A](docs/demo/quality/tardis_inference_server_reference_a_s13_gongbi_river_umbrella.png) | ![TARDIS inference server baseline B](docs/demo/quality/tardis_inference_server_reference_b_s13_gongbi_river_umbrella.png) | ![TARDIS inference server baseline C](docs/demo/quality/tardis_inference_server_reference_c_s13_gongbi_river_umbrella.png) | ![TARDIS inference server baseline D](docs/demo/quality/tardis_inference_server_reference_d_s13_gongbi_river_umbrella.png) | ![TARDIS inference server baseline E](docs/demo/quality/tardis_inference_server_reference_e_s13_gongbi_river_umbrella.png) |
-
-视觉对比模型与引用：
+视觉对比模型与单一引用链接如下：
 
 | 视觉对比模型 | 引用 |
 | --- | --- |
@@ -456,18 +479,22 @@ GET http://127.0.0.1:8787/api/generations/<task-id>
 | ModelScope Text-to-Video 1.7B | [模型页面](https://huggingface.co/ali-vilab/text-to-video-ms-1.7b) |
 | Wan2.1 T2V 1.3B | [项目页面](https://github.com/Wan-Video/Wan2.1) |
 
-完整素材说明保留在 `docs/demo/model_sources.txt`。
+完整素材说明保留在 [`docs/demo/model_sources.txt`](docs/demo/model_sources.txt)。
 
-### 12 个批量推理场景
+### 3. 12 个批量推理场景
 
-下列 GIF 是从 `document_materials/perform/videos_20s/` 的 12 个批量推理 MP4 中截取的约 3 秒预览，用于展示赛博朋克、科幻机甲、月面实验室、油画、手绘森林、动作片、像素 RPG、野生动物、仙侠和日式动画等场景。它们统一压缩为 480px 宽、8 FPS 的 README 友好版本；原始 MP4 不复制进仓库。
+下列 GIF 是从 `document_materials/perform/videos_20s/` 的 12 个批量推理 MP4 中截取的约 3 秒预览，覆盖赛博朋克街景、雨巷、科幻机甲、月面实验室、油画海岸、手绘森林、动作片、像素 RPG、野生动物、仙侠悬崖和日式动画。每个 GIF 使用绝对 `raw.githubusercontent.com` 地址，并附带静态 JPG 海报入口：在不支持动画或网络暂时阻塞 GIF 的 Markdown 客户端中，海报仍可打开；点击 GIF 可直接查看原始动画。
 
-| 场景 | GIF 预览 | 场景 | GIF 预览 | 场景 | GIF 预览 |
-| --- | --- | --- | --- | --- | --- |
-| Cyberpunk city | ![Cyberpunk city GIF](docs/demo/batch/gif/s01_cyberpunk_neon_city_20s.gif) | Rain alley | ![Rain alley GIF](docs/demo/batch/gif/s02_cyberpunk_rain_alley_v7_20s.gif) | Sci-fi mecha | ![Sci-fi mecha GIF](docs/demo/batch/gif/s03_hardcore_sci_fi_mecha_20s.gif) |
-| Lunar lab | ![Lunar lab GIF](docs/demo/batch/gif/s04_rover_lunar_lab_20s.gif) | Oil seaside | ![Oil seaside GIF](docs/demo/batch/gif/s05_classical_oil_seaside_walk_20s.gif) | Fantasy forest | ![Fantasy forest GIF](docs/demo/batch/gif/s06_handpainted_fantasy_forest_20s.gif) |
-| Action thriller | ![Action thriller GIF](docs/demo/batch/gif/s07_hollywood_action_thriller_20s.gif) | Pixel RPG | ![Pixel RPG GIF](docs/demo/batch/gif/s08_pixel_art_rpg_forest_castle_20s.gif) | Arctic wolf | ![Arctic wolf GIF](docs/demo/batch/gif/s09_wildlife_arctic_wolf_fullbody_v3_10s.gif) |
-| Xianxia cliff | ![Xianxia cliff GIF](docs/demo/batch/gif/s10_xianxia_cliff_20s.gif) | Japan animation | ![Japan animation GIF](docs/demo/batch/gif/s011_animation_japan_5s.gif) | Wildlife close-up | ![Wildlife close-up GIF](docs/demo/batch/gif/s012_wildlife_arctic_wolf_v2_10s.gif) |
+| 场景与 GIF 预览 | 场景与 GIF 预览 |
+| --- | --- |
+| Cyberpunk city<br>![Cyberpunk city GIF](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/batch/gif/s01_cyberpunk_neon_city_20s.gif)<br><sub>[静态海报](docs/demo/batch/s01_cyberpunk_neon_city_20s.jpg) · [打开 GIF](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/batch/gif/s01_cyberpunk_neon_city_20s.gif)</sub> | Rain alley<br>![Rain alley GIF](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/batch/gif/s02_cyberpunk_rain_alley_v7_20s.gif)<br><sub>[静态海报](docs/demo/batch/s02_cyberpunk_rain_alley_v7_20s.jpg) · [打开 GIF](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/batch/gif/s02_cyberpunk_rain_alley_v7_20s.gif)</sub> |
+| Sci-fi mecha<br>![Sci-fi mecha GIF](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/batch/gif/s03_hardcore_sci_fi_mecha_20s.gif)<br><sub>[静态海报](docs/demo/batch/s03_hardcore_sci_fi_mecha_20s.jpg) · [打开 GIF](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/batch/gif/s03_hardcore_sci_fi_mecha_20s.gif)</sub> | Lunar lab<br>![Lunar lab GIF](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/batch/gif/s04_rover_lunar_lab_20s.gif)<br><sub>[静态海报](docs/demo/batch/s04_rover_lunar_lab_20s.jpg) · [打开 GIF](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/batch/gif/s04_rover_lunar_lab_20s.gif)</sub> |
+| Oil seaside<br>![Oil seaside GIF](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/batch/gif/s05_classical_oil_seaside_walk_20s.gif)<br><sub>[静态海报](docs/demo/batch/s05_classical_oil_seaside_walk_20s.jpg) · [打开 GIF](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/batch/gif/s05_classical_oil_seaside_walk_20s.gif)</sub> | Fantasy forest<br>![Fantasy forest GIF](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/batch/gif/s06_handpainted_fantasy_forest_20s.gif)<br><sub>[静态海报](docs/demo/batch/s06_handpainted_fantasy_forest_20s.jpg) · [打开 GIF](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/batch/gif/s06_handpainted_fantasy_forest_20s.gif)</sub> |
+| Action thriller<br>![Action thriller GIF](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/batch/gif/s07_hollywood_action_thriller_20s.gif)<br><sub>[静态海报](docs/demo/batch/s07_hollywood_action_thriller_20s.jpg) · [打开 GIF](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/batch/gif/s07_hollywood_action_thriller_20s.gif)</sub> | Pixel RPG<br>![Pixel RPG GIF](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/batch/gif/s08_pixel_art_rpg_forest_castle_20s.gif)<br><sub>[静态海报](docs/demo/batch/s08_pixel_art_rpg_forest_castle_20s.jpg) · [打开 GIF](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/batch/gif/s08_pixel_art_rpg_forest_castle_20s.gif)</sub> |
+| Arctic wolf<br>![Arctic wolf GIF](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/batch/gif/s09_wildlife_arctic_wolf_fullbody_v3_10s.gif)<br><sub>[静态海报](docs/demo/batch/s09_wildlife_arctic_wolf_fullbody_v3_10s.jpg) · [打开 GIF](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/batch/gif/s09_wildlife_arctic_wolf_fullbody_v3_10s.gif)</sub> | Xianxia cliff<br>![Xianxia cliff GIF](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/batch/gif/s10_xianxia_cliff_20s.gif)<br><sub>[静态海报](docs/demo/batch/s10_xianxia_cliff_20s.jpg) · [打开 GIF](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/batch/gif/s10_xianxia_cliff_20s.gif)</sub> |
+| Japan animation<br>![Japan animation GIF](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/batch/gif/s011_animation_japan_5s.gif)<br><sub>[静态海报](docs/demo/batch/s011_animation_japan_5s.jpg) · [打开 GIF](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/batch/gif/s011_animation_japan_5s.gif)</sub> | Wildlife close-up<br>![Wildlife close-up GIF](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/batch/gif/s012_wildlife_arctic_wolf_v2_10s.gif)<br><sub>[静态海报](docs/demo/batch/s012_wildlife_arctic_wolf_v2_10s.jpg) · [打开 GIF](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/batch/gif/s012_wildlife_arctic_wolf_v2_10s.gif)</sub> |
+
+批量 GIF 统一压缩为 480×270、约 3 秒的 README 友好版本；原始 MP4 不复制进仓库。批量视频的 prompt 与文件名对应关系见交付资料中的 `videos_20s/description/12_video_prompts.txt`。如果某个客户端只显示静态帧，可直接打开该行的 Raw GIF 链接；这不是文件缺失，而是渲染器或 CDN 缓存策略差异。
 
 ## 输出、日志与可复现性
 
