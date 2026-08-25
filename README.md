@@ -288,7 +288,7 @@ project/
 
 | # | 方法标识 | SOTA 对比模型与引用 |
 | ---: | --- | --- |
-| 1 | `animatediff_lightning` | [AnimateDiff-Lightning](https://github.com/ByteDance/AnimateDiff-Lightning) |
+| 1 | `animatediff_lightning` | [AnimateDiff-Lightning](https://huggingface.co/ByteDance/AnimateDiff-Lightning) |
 | 2 | `sd_turbo_independent` | [SD-Turbo](https://huggingface.co/stabilityai/sd-turbo) 独立逐帧基线 |
 | 3 | `text2video_zero` | [Text2Video-Zero](https://github.com/Picsart-AI-Research/Text2Video-Zero) |
 | 4 | `streamdiffusion_img2img` | [StreamDiffusion](https://github.com/cumulo-autumn/StreamDiffusion) image-to-video path |
