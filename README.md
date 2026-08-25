@@ -33,23 +33,25 @@ TARDIS 是一个面向连续视频生成的完整工程：GPU 服务端负责训
 
 批量 GIF 统一压缩为 480×270、约 3 秒的 README 友好版本；原始 MP4 不复制进仓库。批量视频的 prompt 与文件名对应关系见交付资料中的 `videos_20s/description/12_video_prompts.txt`。
 
-### 2. 论文与附录中的受控视觉对比
+### 2. 受控视觉对比
 
-下面是论文正文和附录中实际排版使用的对比图 PNG 导出，保持原始六模型列、固定 prompt、seed=42 和统一帧位置。它们与上面的单帧素材相互补充：正文图突出 s04/s05/s11/s15 的受控比较，附录板突出 s08/s09/s10/s12/s14 的 clean/annotated 交替审计。这里展示的是非传统绘画场景，便于直接检查主体边界、背景结构、局部 LPIPS 和 TC 标注。
+下面的对比图使用统一 prompt、seed=42 和帧位置，保持六模型列与相同的画布条件。不同场景覆盖像素城市、现实厨房、赛博朋克雨巷、黑色电影、美式卡通客厅、黏土夜市、PVC 实验室、太空舱和铅笔咖啡馆，便于直接观察主体边界、背景结构、局部 LPIPS 与 TC 标注。
 
-| 论文正文：s04 pixel-art robot city | 论文正文：s05 realistic kitchen |
+| s04 pixel-art robot city | s05 realistic kitchen |
 | --- | --- |
-| ![Main paper s04 controlled comparison](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/paper/qual_s04.png) | ![Main paper s05 controlled comparison](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/paper/qual_s05.png) |
+| ![Controlled s04 pixel-art robot city](docs/demo/quality/qual_s04_pixel_robot_city.png) | ![Controlled s05 realistic kitchen](docs/demo/quality/qual_s05_realistic_kitchen.png) |
 
-| 论文正文：s11 cyberpunk annotated audit | 论文正文：s15 film-noir comparison |
+| s11 cyberpunk annotated audit | s15 film-noir comparison |
 | --- | --- |
-| ![Main paper s11 controlled annotated comparison](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/paper/qual_s11_large.png) | ![Main paper s15 controlled comparison](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/paper/qual_s15_large.png) |
+| ![Controlled s11 cyberpunk annotated audit](docs/demo/quality/qual_s11_cyberpunk_annotated.png) | ![Controlled s15 film-noir comparison](docs/demo/quality/qual_s15_film_noir.png) |
 
-附录中的 clean/annotated 交替板（s08 American cartoon living room、s09 clay night market、s10 PVC laboratory、s12 space capsule、s14 pencil cafe）：
+五个场景的 clean/annotated 交替板（s08 American cartoon living room、s09 clay night market、s10 PVC laboratory、s12 space capsule、s14 pencil cafe）：
 
-![Appendix controlled qualitative plate B](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/paper/appendix_qual_plate_b.png)
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/quality/controlled_qualitative_plate.png" alt="Controlled qualitative comparison grid" width="100%">
+</p>
 
-这些图是论文和附录的直接栅格导出，不是重新挑选的宣传帧；点击图片即可打开仓库中的原始 PNG。论文和附录原文件保持不变，README 只保留上述受控视觉证据。
+这些图是统一实验条件下的直接栅格导出，不是重新挑选的宣传帧；点击图片即可打开仓库中的原始 PNG。整行拼接板按场景交替展示 clean 与 annotated 结果，彩色框用于定位主体、物体和场景区域。
 
 ### 3. 多场景 TARDIS 输出
 
@@ -67,44 +69,35 @@ TARDIS 在现实厨房、电影街景、美式卡通客厅、黏土夜市、科�
 | Pencil cafe | ![TARDIS clean pencil cafe](docs/demo/quality/tardis_s14_pencil_cafe_clean.png) | ![TARDIS annotated pencil cafe](docs/demo/quality/tardis_s14_pencil_cafe_annotated.png) |
 | Film noir expression | ![TARDIS clean film noir expression](docs/demo/quality/tardis_s15_film_noir_expression_clean.png) | ![TARDIS annotated film noir expression](docs/demo/quality/tardis_s15_film_noir_expression_annotated.png) |
 
-clean 帧用于判断风格、构图和细节，annotated 帧用于定位 LPIPS 变化集中在哪些局部，以及 TC 是否在主体和背景之间保持一致。模型架构、指标定义和完整实验协议见论文与附录；这里保留原始 PNG，便于放大检查。
+clean 帧用于判断风格、构图和细节，annotated 帧用于定位 LPIPS 变化集中在哪些局部，以及 TC 是否在主体和背景之间保持一致。模型架构、指标定义和完整实验协议见项目文档；这里保留原始 PNG，便于放大检查。
 
 ### 4. 同一 prompt 的外部模型对照
 
-下面三组使用相同 prompt 和画布条件，分别对应现实厨房、赛博朋克雨巷和黑色电影表情。每组同时列出 TARDIS 和五个视觉对比模型，便于比较主体稳定性、局部细节与背景连续性。
+下面三组使用相同 prompt 和画布条件，分别对应现实厨房、赛博朋克雨巷和黑色电影表情。每组以紧凑网格列出 TARDIS 和五个视觉对比模型，便于并排比较主体稳定性、局部细节与背景连续性。
 
 #### Realistic photo kitchen
 
-| 模型 | clean frame |
-| --- | --- |
-| **TARDIS** | ![TARDIS realistic photo kitchen comparison](docs/demo/quality/tardis_s05_realistic_photo_kitchen_clean.png) |
-| ZeroScope v2 576w | ![ZeroScope realistic photo kitchen](docs/demo/quality/zeroscope_s05_realistic_photo_kitchen_clean.png) |
-| Pyramid Flow miniFLUX | ![Pyramid Flow realistic photo kitchen](docs/demo/quality/pyramidflow_s05_realistic_photo_kitchen_clean.png) |
-| CogVideoX-2B | ![CogVideoX realistic photo kitchen](docs/demo/quality/cogvideox_s05_realistic_photo_kitchen_clean.png) |
-| ModelScope Text-to-Video 1.7B | ![ModelScope realistic photo kitchen](docs/demo/quality/modelscope_s05_realistic_photo_kitchen_clean.png) |
-| Wan2.1 T2V 1.3B | ![Wan2.1 realistic photo kitchen](docs/demo/quality/wan21_s05_realistic_photo_kitchen_clean.png) |
+| **TARDIS** | **ZeroScope v2 576w** | **Pyramid Flow miniFLUX** |
+| --- | --- | --- |
+| <img src="docs/demo/quality/tardis_s05_realistic_photo_kitchen_clean.png" alt="TARDIS realistic photo kitchen" width="220"> | <img src="docs/demo/quality/zeroscope_s05_realistic_photo_kitchen_clean.png" alt="ZeroScope realistic photo kitchen" width="220"> | <img src="docs/demo/quality/pyramidflow_s05_realistic_photo_kitchen_clean.png" alt="Pyramid Flow realistic photo kitchen" width="220"> |
+| **CogVideoX-2B** | **ModelScope Text-to-Video 1.7B** | **Wan2.1 T2V 1.3B** |
+| <img src="docs/demo/quality/cogvideox_s05_realistic_photo_kitchen_clean.png" alt="CogVideoX realistic photo kitchen" width="220"> | <img src="docs/demo/quality/modelscope_s05_realistic_photo_kitchen_clean.png" alt="ModelScope realistic photo kitchen" width="220"> | <img src="docs/demo/quality/wan21_s05_realistic_photo_kitchen_clean.png" alt="Wan2.1 realistic photo kitchen" width="220"> |
 
 #### Cyberpunk rain alley
 
-| 模型 | clean frame |
-| --- | --- |
-| **TARDIS** | ![TARDIS cyberpunk rain alley comparison](docs/demo/quality/tardis_s11_cyberpunk_rain_alley_clean.png) |
-| ZeroScope v2 576w | ![ZeroScope cyberpunk rain alley](docs/demo/quality/zeroscope_s11_cyberpunk_rain_alley_clean.png) |
-| Pyramid Flow miniFLUX | ![Pyramid Flow cyberpunk rain alley](docs/demo/quality/pyramidflow_s11_cyberpunk_rain_alley_clean.png) |
-| CogVideoX-2B | ![CogVideoX cyberpunk rain alley](docs/demo/quality/cogvideox_s11_cyberpunk_rain_alley_clean.png) |
-| ModelScope Text-to-Video 1.7B | ![ModelScope cyberpunk rain alley](docs/demo/quality/modelscope_s11_cyberpunk_rain_alley_clean.png) |
-| Wan2.1 T2V 1.3B | ![Wan2.1 cyberpunk rain alley](docs/demo/quality/wan21_s11_cyberpunk_rain_alley_clean.png) |
+| **TARDIS** | **ZeroScope v2 576w** | **Pyramid Flow miniFLUX** |
+| --- | --- | --- |
+| <img src="docs/demo/quality/tardis_s11_cyberpunk_rain_alley_clean.png" alt="TARDIS cyberpunk rain alley" width="220"> | <img src="docs/demo/quality/zeroscope_s11_cyberpunk_rain_alley_clean.png" alt="ZeroScope cyberpunk rain alley" width="220"> | <img src="docs/demo/quality/pyramidflow_s11_cyberpunk_rain_alley_clean.png" alt="Pyramid Flow cyberpunk rain alley" width="220"> |
+| **CogVideoX-2B** | **ModelScope Text-to-Video 1.7B** | **Wan2.1 T2V 1.3B** |
+| <img src="docs/demo/quality/cogvideox_s11_cyberpunk_rain_alley_clean.png" alt="CogVideoX cyberpunk rain alley" width="220"> | <img src="docs/demo/quality/modelscope_s11_cyberpunk_rain_alley_clean.png" alt="ModelScope cyberpunk rain alley" width="220"> | <img src="docs/demo/quality/wan21_s11_cyberpunk_rain_alley_clean.png" alt="Wan2.1 cyberpunk rain alley" width="220"> |
 
 #### Film noir expression
 
-| 模型 | clean frame |
-| --- | --- |
-| **TARDIS** | ![TARDIS film noir expression comparison](docs/demo/quality/tardis_s15_film_noir_expression_clean.png) |
-| ZeroScope v2 576w | ![ZeroScope film noir expression](docs/demo/quality/zeroscope_s15_film_noir_expression_clean.png) |
-| Pyramid Flow miniFLUX | ![Pyramid Flow film noir expression](docs/demo/quality/pyramidflow_s15_film_noir_expression_clean.png) |
-| CogVideoX-2B | ![CogVideoX film noir expression](docs/demo/quality/cogvideox_s15_film_noir_expression_clean.png) |
-| ModelScope Text-to-Video 1.7B | ![ModelScope film noir expression](docs/demo/quality/modelscope_s15_film_noir_expression_clean.png) |
-| Wan2.1 T2V 1.3B | ![Wan2.1 film noir expression](docs/demo/quality/wan21_s15_film_noir_expression_clean.png) |
+| **TARDIS** | **ZeroScope v2 576w** | **Pyramid Flow miniFLUX** |
+| --- | --- | --- |
+| <img src="docs/demo/quality/tardis_s15_film_noir_expression_clean.png" alt="TARDIS film noir expression" width="220"> | <img src="docs/demo/quality/zeroscope_s15_film_noir_expression_clean.png" alt="ZeroScope film noir expression" width="220"> | <img src="docs/demo/quality/pyramidflow_s15_film_noir_expression_clean.png" alt="Pyramid Flow film noir expression" width="220"> |
+| **CogVideoX-2B** | **ModelScope Text-to-Video 1.7B** | **Wan2.1 T2V 1.3B** |
+| <img src="docs/demo/quality/cogvideox_s15_film_noir_expression_clean.png" alt="CogVideoX film noir expression" width="220"> | <img src="docs/demo/quality/modelscope_s15_film_noir_expression_clean.png" alt="ModelScope film noir expression" width="220"> | <img src="docs/demo/quality/wan21_s15_film_noir_expression_clean.png" alt="Wan2.1 film noir expression" width="220"> |
 
 视觉对比模型与单一引用链接如下：
 
@@ -112,7 +105,7 @@ clean 帧用于判断风格、构图和细节，annotated 帧用于定位 LPIPS 
 | --- | --- |
 | ZeroScope v2 576w | [模型页面](https://huggingface.co/cerspense/zeroscope_v2_576w) |
 | Pyramid Flow miniFLUX | [项目页面](https://github.com/jy0205/Pyramid-Flow) |
-| CogVideoX-2B | [论文](https://arxiv.org/abs/2408.06072) |
+| CogVideoX-2B | [arXiv](https://arxiv.org/abs/2408.06072) |
 | ModelScope Text-to-Video 1.7B | [模型页面](https://huggingface.co/ali-vilab/text-to-video-ms-1.7b) |
 | Wan2.1 T2V 1.3B | [项目页面](https://github.com/Wan-Video/Wan2.1) |
 
@@ -548,9 +541,9 @@ $TARDIS_STORAGE_ROOT/
 
 ## 研究实验脚本边界
 
-`scripts/train.sh`、`infer.sh`、`apply.sh` 是迁移后可直接使用的标准入口；它们通过 `SCRIPT_DIR` 推导根目录。`scripts/run_*` 和 `tardis/experiments/` 下部分论文交付、benchmark、队列和审计脚本仍保留 `/home/TARDIS` 或 `/root/autodl-tmp/TARDIS` 的研究环境假设，运行前应检查并覆盖绝对路径。
+`scripts/train.sh`、`infer.sh`、`apply.sh` 是迁移后可直接使用的标准入口；它们通过 `SCRIPT_DIR` 推导根目录。`scripts/run_*` 和 `tardis/experiments/` 下部分 benchmark、队列和审计脚本仍保留 `/home/TARDIS` 或 `/root/autodl-tmp/TARDIS` 的研究环境假设，运行前应检查并覆盖绝对路径。
 
-论文/附录中的正式结果、抽帧图和代理指标来自独立证据包；README 中的 GIF 与缩略图是可视化演示，不应被当作全测试集统计。
+正式结果、抽帧图和代理指标来自独立证据包；README 中的 GIF 与缩略图是可视化演示，不应被当作全测试集统计。
 
 ## 故障排查
 
@@ -592,7 +585,7 @@ find "$TARDIS_CHECKPOINT_ROOT" -name best.pt -print
 
 ## 引用与相关文档
 
-若使用 TARDIS 代码或方法，请参考 [CITATION.cff](CITATION.cff)。论文实验的视觉来源和对照链接见 [docs/demo/model_sources.txt](docs/demo/model_sources.txt)。
+若使用 TARDIS 代码或方法，请参考 [CITATION.cff](CITATION.cff)。视觉来源和对照链接见 [docs/demo/model_sources.txt](docs/demo/model_sources.txt)。
 
 - [docs/train.md](docs/train.md)：训练、验证和 checkpoint 选择
 - [docs/infer.md](docs/infer.md)：全量 test split、指标和 showcase
