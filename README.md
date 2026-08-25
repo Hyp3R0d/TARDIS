@@ -153,11 +153,11 @@ project/
 
 项目内部固定使用三个 canonical dataset 名称：
 
-| canonical name | 上游数据源 | 默认 manifest root |
+| canonical name | 上游数据源与引用 | 默认 manifest root |
 | --- | --- | --- |
-| `dataverse` | Vchitect T2V DataVerse | `Vchitect_T2V_DataVerse` |
-| `openvid` | OpenVid-1M | `OpenVid-1M` |
-| `seedance` | seedance-2-prompts-datasets | `seedance-2-prompts-datasets` |
+| `dataverse` | [Vchitect T2V DataVerse](https://github.com/Vchitect/Vchitect_T2V_DataVerse) | `Vchitect_T2V_DataVerse` |
+| `openvid` | [OpenVid-1M](https://github.com/nkp37/OpenVid-1M) | `OpenVid-1M` |
+| `seedance` | [seedance-2-prompts-datasets](https://github.com/GokuScraper/seedance-2-prompts-datasets) | `seedance-2-prompts-datasets` |
 
 默认 `datasets.txt` 中记录的是：
 
@@ -171,19 +171,19 @@ project/
 
 正式 benchmark 设置是 **3 个数据集、TARDIS 与 9 个外部对比基线**：
 
-| # | 方法标识 | 备注 |
+| # | 方法标识 | SOTA 对比模型与引用 |
 | ---: | --- | --- |
-| 1 | `external_baseline_01` | TARDIS 推理服务端外部基线 01 |
-| 2 | `external_baseline_02` | TARDIS 推理服务端外部基线 02 |
-| 3 | `external_baseline_03` | TARDIS 推理服务端外部基线 03 |
-| 4 | `external_baseline_04` | TARDIS 推理服务端外部基线 04 |
-| 5 | `external_baseline_05` | TARDIS 推理服务端外部基线 05 |
-| 6 | `external_baseline_06` | TARDIS 推理服务端外部基线 06 |
-| 7 | `external_baseline_07` | TARDIS 推理服务端外部基线 07 |
-| 8 | `external_baseline_08` | TARDIS 推理服务端外部基线 08 |
-| 9 | `external_baseline_09` | TARDIS 推理服务端外部基线 09 |
+| 1 | `animatediff_lightning` | [AnimateDiff-Lightning](https://github.com/ByteDance/AnimateDiff-Lightning) |
+| 2 | `sd_turbo_independent` | [SD-Turbo](https://huggingface.co/stabilityai/sd-turbo) 独立逐帧基线 |
+| 3 | `text2video_zero` | [Text2Video-Zero](https://github.com/Picsart-AI-Research/Text2Video-Zero) |
+| 4 | `streamdiffusion_img2img` | [StreamDiffusion](https://github.com/cumulo-autumn/StreamDiffusion) image-to-video path |
+| 5 | `rerender_flow` | [ReRender-A-Video](https://doi.org/10.1145/3610548.3618160) |
+| 6 | `tokenflow_core` | [TokenFlow](https://doi.org/10.48550/arXiv.2307.10373) |
+| 7 | `vid2vid_zero_core` | [vid2vid-zero](https://github.com/baaivision/vid2vid-zero) |
+| 8 | `controlvideo_canny` | [ControlVideo](https://github.com/YBYBZhang/ControlVideo) Canny condition |
+| 9 | `stablevideo_propagation` | [StableVideo](https://doi.org/10.1109/ICCV51070.2023.02106) propagation |
 
-后六类通常属于 source-conditioned 对比，不能与 prompt-only `apply` 结果混写。实现和分组位于 `tardis/experiments/benchmark.py`；论文视觉包中的对照来源索引见 [docs/demo/model_sources.txt](docs/demo/model_sources.txt)。
+后六类通常属于 source-conditioned 对比，不能与 prompt-only `apply` 结果混写。实现和分组位于 `tardis/experiments/benchmark.py`。
 
 ## GPU 服务端部署
 
@@ -446,7 +446,17 @@ GET http://127.0.0.1:8787/api/generations/<task-id>
 | --- | --- | --- | --- | --- |
 | ![TARDIS inference server baseline A](docs/demo/quality/tardis_inference_server_reference_a_s13_gongbi_river_umbrella.png) | ![TARDIS inference server baseline B](docs/demo/quality/tardis_inference_server_reference_b_s13_gongbi_river_umbrella.png) | ![TARDIS inference server baseline C](docs/demo/quality/tardis_inference_server_reference_c_s13_gongbi_river_umbrella.png) | ![TARDIS inference server baseline D](docs/demo/quality/tardis_inference_server_reference_d_s13_gongbi_river_umbrella.png) | ![TARDIS inference server baseline E](docs/demo/quality/tardis_inference_server_reference_e_s13_gongbi_river_umbrella.png) |
 
-五组对照素材的来源、权重和论文链接记录在 [docs/demo/model_sources.txt](docs/demo/model_sources.txt)。
+视觉对比模型与引用：
+
+| 视觉对比模型 | 引用 |
+| --- | --- |
+| ZeroScope v2 576w | [模型页面](https://huggingface.co/cerspense/zeroscope_v2_576w) |
+| Pyramid Flow miniFLUX | [项目页面](https://github.com/jy0205/Pyramid-Flow) |
+| CogVideoX-2B | [论文](https://arxiv.org/abs/2408.06072) |
+| ModelScope Text-to-Video 1.7B | [模型页面](https://huggingface.co/ali-vilab/text-to-video-ms-1.7b) |
+| Wan2.1 T2V 1.3B | [项目页面](https://github.com/Wan-Video/Wan2.1) |
+
+完整素材说明保留在 `docs/demo/model_sources.txt`。
 
 ### 12 个批量推理场景
 
