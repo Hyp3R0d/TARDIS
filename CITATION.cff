@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "If you use TARDIS, please cite this software."
+title: "TARDIS: Transport-Aligned Residual Diffusion in Innovation Subspaces"
+type: software
+version: 0.1.0
+date-released: 2026-08-02
+license: Apache-2.0
+authors:
+  - name: "TARDIS Contributors"

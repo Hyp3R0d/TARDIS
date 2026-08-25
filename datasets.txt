@@ -1,0 +1,3 @@
+/home/TARDIS/data/Vchitect_T2V_DataVerse
+/home/TARDIS/data/OpenVid-1M
+/home/TARDIS/data/seedance-2-prompts-datasets

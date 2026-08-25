@@ -1,0 +1,57 @@
+{
+  "name": "tardis-video-studio",
+  "private": true,
+  "version": "1.0.0",
+  "description": "TARDIS Studio desktop client for CogVideoX video generation",
+  "main": "electron/main.mjs",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently \"npm:server\" \"npm:client\"",
+    "client": "vite --host 127.0.0.1",
+    "server": "node server/index.mjs",
+    "build": "vite build",
+    "start": "node server/index.mjs",
+    "desktop:dev": "concurrently -k \"npm:client\" \"wait-on http://127.0.0.1:5173 && electron electron/main.mjs --dev\"",
+    "desktop": "npm run build && electron electron/main.mjs",
+    "desktop:dist": "npm run build && electron-builder --win dir",
+    "test": "node --test tests/*.test.mjs"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "latest",
+    "concurrently": "latest",
+    "dotenv": "latest",
+    "express": "latest",
+    "lucide-react": "0.468.0",
+    "react": "latest",
+    "react-dom": "latest",
+    "vite": "latest"
+  },
+  "devDependencies": {
+    "electron": "^43.4.1",
+    "electron-builder": "^26.15.3",
+    "wait-on": "^8.0.3"
+  },
+  "build": {
+    "appId": "cn.tardis.studio",
+    "productName": "TARDIS Studio",
+    "directories": {
+      "output": "release"
+    },
+    "electronDist": "node_modules/electron/dist",
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "dir",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,53 @@
+T2V Benchmark 模型出处
+=======================
+
+以下是除 TARDIS（Allegro）外，用于视觉对比的五个开源文本生成视频模型。
+链接均指向模型原始发布方或官方项目页面；`hf-mirror.com` 仅用于本地下载中转。
+
+1. ZeroScope v2 576w
+--------------------
+简介：ModelScope 系列文本生成视频模型的社区 Hugging Face 权重，适合生成短时
+低分辨率视频，是本地轻量级基线。
+
+模型：https://huggingface.co/cerspense/zeroscope_v2_576w
+代码/原始权重：https://huggingface.co/damo-vilab/modelscope-damo-text-to-video-synthesis
+
+2. Pyramid Flow miniFLUX
+-----------------------
+简介：采用 Pyramid Flow 视频生成架构并结合 miniFLUX 的开源模型，强调较快的
+推理速度和较好的文本到视频质量平衡。
+
+模型：https://huggingface.co/rain1011/pyramid-flow-miniflux
+代码：https://github.com/jy0205/Pyramid-Flow
+项目主页：https://pyramid-flow.github.io
+论文：https://arxiv.org/abs/2410.05954
+
+3. CogVideoX-2B
+--------------
+简介：THUDM / Zhipu AI 发布的 2B 参数文本生成视频模型，作为独立 benchmark
+参与比较，不属于 TARDIS。
+
+模型：https://huggingface.co/zai-org/CogVideoX-2b
+代码：https://github.com/THUDM/CogVideo
+论文：https://arxiv.org/abs/2408.06072
+
+4. ModelScope Text-to-Video 1.7B
+-------------------------------
+简介：ModelScope 发布的 1.7B 参数文本生成视频模型，是较早公开的开源 T2V
+基线，便于和新模型进行效果对比。
+
+模型：https://huggingface.co/ali-vilab/text-to-video-ms-1.7b
+ModelScope：https://modelscope.cn/models/damo/text-to-video-synthesis/summary
+代码：https://github.com/modelscope/modelscope
+
+5. Wan2.1 T2V 1.3B
+------------------
+简介：Wan-AI 发布的 1.3B 参数文本生成视频模型，提供 Diffusers 权重，适合作为
+现代开源模型基线进行本地推理和视觉质量比较。
+
+模型：https://huggingface.co/Wan-AI/Wan2.1-T2V-1.3B-Diffusers
+代码：https://github.com/Wan-Video/Wan2.1
+项目主页：https://wanxai.com
+
+说明：TARDIS 是本项目对 Allegro 的统一命名，因此不作为外部 benchmark 来源
+重复列出。
