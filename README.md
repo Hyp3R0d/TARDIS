@@ -37,13 +37,29 @@ TARDIS 是一个面向连续视频生成的完整工程：GPU 服务端负责训
 
 下面的对比图使用统一 prompt、seed=42 和帧位置，保持六模型列与相同的画布条件。不同场景覆盖像素城市、现实厨房、赛博朋克雨巷、黑色电影、美式卡通客厅、黏土夜市、PVC 实验室、太空舱和铅笔咖啡馆，便于直接观察主体边界、背景结构、局部 LPIPS 与 TC 标注。
 
-| s04 pixel-art robot city | s05 realistic kitchen |
-| --- | --- |
-| ![Controlled s04 pixel-art robot city](docs/demo/quality/qual_s04_pixel_robot_city.png) | ![Controlled s05 realistic kitchen](docs/demo/quality/qual_s05_realistic_kitchen.png) |
+<div align="center">
+  <strong>s04 pixel-art robot city</strong>
+  <br>
+  <img src="docs/demo/quality/qual_s04_pixel_robot_city.png" alt="Controlled s04 pixel-art robot city" width="100%">
+</div>
 
-| s11 cyberpunk annotated audit | s15 film-noir comparison |
-| --- | --- |
-| ![Controlled s11 cyberpunk annotated audit](docs/demo/quality/qual_s11_cyberpunk_annotated.png) | ![Controlled s15 film-noir comparison](docs/demo/quality/qual_s15_film_noir.png) |
+<div align="center">
+  <strong>s05 realistic kitchen</strong>
+  <br>
+  <img src="docs/demo/quality/qual_s05_realistic_kitchen.png" alt="Controlled s05 realistic kitchen" width="100%">
+</div>
+
+<div align="center">
+  <strong>s11 cyberpunk annotated audit</strong>
+  <br>
+  <img src="docs/demo/quality/qual_s11_cyberpunk_annotated.png" alt="Controlled s11 cyberpunk annotated audit" width="100%">
+</div>
+
+<div align="center">
+  <strong>s15 film-noir comparison</strong>
+  <br>
+  <img src="docs/demo/quality/qual_s15_film_noir.png" alt="Controlled s15 film-noir comparison" width="100%">
+</div>
 
 五个场景的 clean/annotated 交替板（s08 American cartoon living room、s09 clay night market、s10 PVC laboratory、s12 space capsule、s14 pencil cafe）：
 
