@@ -53,13 +53,13 @@ TARDIS 是一个面向连续视频生成的完整工程：GPU 服务端负责训
 
 ### 3. 多场景 TARDIS 输出
 
-TARDIS 在现实厨房、电影街景、动画竹林、黏土夜市、科幻实验室、赛博朋克雨巷、太空舱、铅笔画咖啡馆和黑色电影等风格上保持主体、背景与运动结构。每行左侧为 clean 帧，右侧为对应的可解释 annotated 帧。
+TARDIS 在现实厨房、电影街景、美式卡通客厅、黏土夜市、科幻实验室、赛博朋克雨巷、太空舱、铅笔画咖啡馆和黑色电影等风格上保持主体、背景与运动结构。每行左侧为 clean 帧，右侧为对应的可解释 annotated 帧。
 
 | 场景 | TARDIS clean | TARDIS annotated |
 | --- | --- | --- |
 | Realistic photo kitchen | ![TARDIS clean realistic photo kitchen](docs/demo/quality/tardis_s05_realistic_photo_kitchen_clean.png) | ![TARDIS annotated realistic photo kitchen](docs/demo/quality/tardis_s05_realistic_photo_kitchen_annotated.png) |
 | Cinematic photo street | ![TARDIS clean cinematic photo street](docs/demo/quality/tardis_s06_cinematic_photo_street_clean.png) | ![TARDIS annotated cinematic photo street](docs/demo/quality/tardis_s06_cinematic_photo_street_annotated.png) |
-| Anime bamboo fight | ![TARDIS clean anime bamboo fight](docs/demo/quality/tardis_s07_anime_bamboo_fight_clean.png) | ![TARDIS annotated anime bamboo fight](docs/demo/quality/tardis_s07_anime_bamboo_fight_annotated.png) |
+| American cartoon living room | ![TARDIS clean American cartoon living room](docs/demo/quality/tardis_s08_american_cartoon_livingroom_clean.png) | ![TARDIS annotated American cartoon living room](docs/demo/quality/tardis_s08_american_cartoon_livingroom_annotated.png) |
 | Clay night market | ![TARDIS clean clay night market](docs/demo/quality/tardis_s09_clay_night_market_clean.png) | ![TARDIS annotated clay night market](docs/demo/quality/tardis_s09_clay_night_market_annotated.png) |
 | PVC laboratory | ![TARDIS clean PVC laboratory](docs/demo/quality/tardis_s10_pvc_lab_clean.png) | ![TARDIS annotated PVC laboratory](docs/demo/quality/tardis_s10_pvc_lab_annotated.png) |
 | Cyberpunk rain alley | ![TARDIS clean cyberpunk rain alley](docs/demo/quality/tardis_s11_cyberpunk_rain_alley_clean.png) | ![TARDIS annotated cyberpunk rain alley](docs/demo/quality/tardis_s11_cyberpunk_rain_alley_annotated.png) |
