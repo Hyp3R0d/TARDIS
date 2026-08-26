@@ -50,7 +50,7 @@ DataVerse 和 OpenVid 使用 `record_identity_v1`：基于 `revision + source + 
 
 ### Seedance
 
-- 仓库：`GokuScraper/seedance-2-prompts-datasets`
+- 数据集入口：[Goku-OpenLab/seedance-2-prompts-datasets](https://github.com/Goku-OpenLab/seedance-2-prompts-datasets)
 - Revision：`515aa5bd59123fb489914ce9cd21419badb08be4`
 - 封装：独立 MP4/WebM/MOV
 - 策略：从有完整 prompt 和本地媒体的候选中确定性选择 8,000 条，随后删除所有未被正式
@@ -61,7 +61,7 @@ DataVerse 和 OpenVid 使用 `record_identity_v1`：基于 `revision + source + 
 
 ### DataVerse
 
-- 仓库：`Vchitect/Vchitect_T2V_DataVerse`
+- 数据集入口：[Vchitect T2V DataVerse](https://huggingface.co/datasets/Vchitect/Vchitect_T2V_DataVerse)；代码与项目说明：[Vchitect-2.0](https://github.com/Vchitect/Vchitect-2.0)
 - Revision：`e068be25f4d06a837992a1e9096fd00105c83f2c`
 - 封装：保留原始 TAR，不解压
 - 策略：从 1,906 个远端 TAR 的固定 revision 文件树中选择 8 个完整分片；每包 1,000 条，
@@ -85,7 +85,7 @@ DataVerse 和 OpenVid 使用 `record_identity_v1`：基于 `revision + source + 
 
 ### OpenVid-1M
 
-- 仓库：`nkp37/OpenVid-1M`
+- 数据集入口：[NJU-PCALab/OpenVid-1M](https://github.com/NJU-PCALab/OpenVid-1M)
 - Revision：`d8a63bd22989c80b5734ec2bb989f4e1b61a5807`
 - 候选包：`OpenVid_part100/84/108/114/85.zip`
 - 策略：只通过 HTTP Range 读取五个 ZIP 的中央目录，与固定 revision 的 CSV 连接得到

@@ -346,9 +346,9 @@ project/
 
 | canonical name | 上游数据源与引用 | 默认 manifest root |
 | --- | --- | --- |
-| `dataverse` | [Vchitect T2V DataVerse](https://github.com/Vchitect/Vchitect_T2V_DataVerse) | `Vchitect_T2V_DataVerse` |
-| `openvid` | [OpenVid-1M](https://github.com/nkp37/OpenVid-1M) | `OpenVid-1M` |
-| `seedance` | [seedance-2-prompts-datasets](https://github.com/GokuScraper/seedance-2-prompts-datasets) | `seedance-2-prompts-datasets` |
+| `dataverse` | [Vchitect T2V DataVerse](https://huggingface.co/datasets/Vchitect/Vchitect_T2V_DataVerse) | `Vchitect_T2V_DataVerse` |
+| `openvid` | [OpenVid-1M](https://github.com/NJU-PCALab/OpenVid-1M) | `OpenVid-1M` |
+| `seedance` | [seedance-2-prompts-datasets](https://github.com/Goku-OpenLab/seedance-2-prompts-datasets) | `seedance-2-prompts-datasets` |
 
 默认 `datasets.txt` 中记录的是：
 
