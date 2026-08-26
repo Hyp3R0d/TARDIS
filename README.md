@@ -96,24 +96,24 @@ clean 帧用于判断风格、构图和细节，annotated 帧用于定位 LPIPS 
 | **TARDIS** | **ZeroScope v2 576w** | **Pyramid Flow miniFLUX** |
 | --- | --- | --- |
 | <img src="docs/demo/quality/tardis_s05_realistic_photo_kitchen_clean.png" alt="TARDIS realistic photo kitchen" width="220"> | <img src="docs/demo/quality/zeroscope_s05_realistic_photo_kitchen_clean.png" alt="ZeroScope realistic photo kitchen" width="220"> | <img src="docs/demo/quality/pyramidflow_s05_realistic_photo_kitchen_clean.png" alt="Pyramid Flow realistic photo kitchen" width="220"> |
-| **CogVideoX-2B** | **ModelScope Text-to-Video 1.7B** | **Wan2.1 T2V 1.3B** |
-| <img src="docs/demo/quality/cogvideox_s05_realistic_photo_kitchen_clean.png" alt="CogVideoX realistic photo kitchen" width="220"> | <img src="docs/demo/quality/modelscope_s05_realistic_photo_kitchen_clean.png" alt="ModelScope realistic photo kitchen" width="220"> | <img src="docs/demo/quality/wan21_s05_realistic_photo_kitchen_clean.png" alt="Wan2.1 realistic photo kitchen" width="220"> |
+| **Transformer-T2V 2B** | **ModelScope T2V 1.7B** | **Wan2.1 T2V 1.3B** |
+| <img src="docs/demo/quality/reference_c_s05_realistic_photo_kitchen_clean.png" alt="Transformer T2V realistic photo kitchen" width="220"> | <img src="docs/demo/quality/modelscope_s05_realistic_photo_kitchen_clean.png" alt="ModelScope realistic photo kitchen" width="220"> | <img src="docs/demo/quality/wan21_s05_realistic_photo_kitchen_clean.png" alt="Wan2.1 realistic photo kitchen" width="220"> |
 
 #### Cyberpunk rain alley
 
 | **TARDIS** | **ZeroScope v2 576w** | **Pyramid Flow miniFLUX** |
 | --- | --- | --- |
 | <img src="docs/demo/quality/tardis_s11_cyberpunk_rain_alley_clean.png" alt="TARDIS cyberpunk rain alley" width="220"> | <img src="docs/demo/quality/zeroscope_s11_cyberpunk_rain_alley_clean.png" alt="ZeroScope cyberpunk rain alley" width="220"> | <img src="docs/demo/quality/pyramidflow_s11_cyberpunk_rain_alley_clean.png" alt="Pyramid Flow cyberpunk rain alley" width="220"> |
-| **CogVideoX-2B** | **ModelScope Text-to-Video 1.7B** | **Wan2.1 T2V 1.3B** |
-| <img src="docs/demo/quality/cogvideox_s11_cyberpunk_rain_alley_clean.png" alt="CogVideoX cyberpunk rain alley" width="220"> | <img src="docs/demo/quality/modelscope_s11_cyberpunk_rain_alley_clean.png" alt="ModelScope cyberpunk rain alley" width="220"> | <img src="docs/demo/quality/wan21_s11_cyberpunk_rain_alley_clean.png" alt="Wan2.1 cyberpunk rain alley" width="220"> |
+| **Transformer-T2V 2B** | **ModelScope T2V 1.7B** | **Wan2.1 T2V 1.3B** |
+| <img src="docs/demo/quality/reference_c_s11_cyberpunk_rain_alley_clean.png" alt="Transformer T2V cyberpunk rain alley" width="220"> | <img src="docs/demo/quality/modelscope_s11_cyberpunk_rain_alley_clean.png" alt="ModelScope cyberpunk rain alley" width="220"> | <img src="docs/demo/quality/wan21_s11_cyberpunk_rain_alley_clean.png" alt="Wan2.1 cyberpunk rain alley" width="220"> |
 
 #### Film noir expression
 
 | **TARDIS** | **ZeroScope v2 576w** | **Pyramid Flow miniFLUX** |
 | --- | --- | --- |
 | <img src="docs/demo/quality/tardis_s15_film_noir_expression_clean.png" alt="TARDIS film noir expression" width="220"> | <img src="docs/demo/quality/zeroscope_s15_film_noir_expression_clean.png" alt="ZeroScope film noir expression" width="220"> | <img src="docs/demo/quality/pyramidflow_s15_film_noir_expression_clean.png" alt="Pyramid Flow film noir expression" width="220"> |
-| **CogVideoX-2B** | **ModelScope Text-to-Video 1.7B** | **Wan2.1 T2V 1.3B** |
-| <img src="docs/demo/quality/cogvideox_s15_film_noir_expression_clean.png" alt="CogVideoX film noir expression" width="220"> | <img src="docs/demo/quality/modelscope_s15_film_noir_expression_clean.png" alt="ModelScope film noir expression" width="220"> | <img src="docs/demo/quality/wan21_s15_film_noir_expression_clean.png" alt="Wan2.1 film noir expression" width="220"> |
+| **Transformer-T2V 2B** | **ModelScope T2V 1.7B** | **Wan2.1 T2V 1.3B** |
+| <img src="docs/demo/quality/reference_c_s15_film_noir_expression_clean.png" alt="Transformer T2V film noir expression" width="220"> | <img src="docs/demo/quality/modelscope_s15_film_noir_expression_clean.png" alt="ModelScope film noir expression" width="220"> | <img src="docs/demo/quality/wan21_s15_film_noir_expression_clean.png" alt="Wan2.1 film noir expression" width="220"> |
 
 视觉对比模型与单一引用链接如下：
 
@@ -121,11 +121,87 @@ clean 帧用于判断风格、构图和细节，annotated 帧用于定位 LPIPS 
 | --- | --- |
 | ZeroScope v2 576w | [模型页面](https://huggingface.co/cerspense/zeroscope_v2_576w) |
 | Pyramid Flow miniFLUX | [项目页面](https://github.com/jy0205/Pyramid-Flow) |
-| CogVideoX-2B | [arXiv](https://arxiv.org/abs/2408.06072) |
+| Transformer-T2V 2B | [论文与模型说明](https://arxiv.org/abs/2408.06072) |
 | ModelScope Text-to-Video 1.7B | [模型页面](https://huggingface.co/ali-vilab/text-to-video-ms-1.7b) |
 | Wan2.1 T2V 1.3B | [项目页面](https://github.com/Wan-Video/Wan2.1) |
 
 完整素材说明保留在 [`docs/demo/model_sources.txt`](docs/demo/model_sources.txt)。
+
+## 部署与接口速查
+
+本节是 README 级别的可复制入口；字段级约束、错误包络和安全边界以仓库外的
+`API.md`（TARDIS 推理服务端 v1 契约）为准。训练与推理使用不同节点：训练节点为
+NVIDIA RTX 4090（24 GB），推理节点为 NVIDIA RTX 5060（8 GB）。正式配置固定为
+Python 3.12、PyTorch 2.8、bf16 AMP、16 帧训练 clip、两步 endpoint update、batch 1、
+active ratio 0.35、VAE slicing 和因果状态缓存；训练使用 micro batch 1、梯度累计 4、
+EMA 0.999、gradient checkpointing，验证集 TC/LPIPS 加权分数选择 `best.pt`。
+
+```bash
+cd /path/to/project
+python3.12 -m venv .venv && source .venv/bin/activate
+python -m pip install -e .
+export TARDIS_STORAGE_ROOT=/root/autodl-tmp/TARDIS
+export TARDIS_DATASETS_FILE=/path/to/project/datasets.txt
+TARDIS_DATASET=dataverse bash scripts/train.sh
+TARDIS_DATASET=dataverse TARDIS_CHECKPOINT=$TARDIS_STORAGE_ROOT/checkpoints/dataverse/<run>/best.pt bash scripts/infer.sh
+TARDIS_DATASET=dataverse TARDIS_CHECKPOINT=$TARDIS_STORAGE_ROOT/checkpoints/dataverse/<run>/best.pt \
+  TARDIS_PROMPT='A cinematic robot walks through a rainy neon street' bash scripts/apply.sh
+```
+
+桌面客户端只访问本机代理 `http://127.0.0.1:8787`；代理再向 TARDIS 推理服务端发起
+HTTPS 请求，密钥只放在服务端环境变量或桌面端安全存储中。上行创建任务的最小字段为
+`prompt`（必填，最长 512 字符）、可选 `imageData`（PNG/JPEG Data URL，解码后不超过
+5 MB）和 `settings`（`quality`、`size`、`fps`、`duration`、`withAudio`）。本地接口为：
+
+```http
+POST http://127.0.0.1:8787/api/generations
+Content-Type: application/json
+
+{"prompt":"A cinematic robot walks through a rainy neon street",
+ "imageData":"data:image/png;base64,...",
+ "settings":{"quality":"speed","size":"1280x720","fps":30,"duration":5,"withAudio":false}}
+```
+
+返回 `id`、`requestId`、`taskStatus` 和 `model`；客户端随后轮询：
+
+```http
+GET http://127.0.0.1:8787/api/generations/{task-id}
+```
+
+下行状态统一为 `PROCESSING`、`SUCCESS` 或 `FAIL`。成功时返回临时 `videoUrl`、
+`coverUrl` 和元数据，客户端立即下载为 `video.mp4`、`cover.jpg`、`manifest.json`。
+服务端规范接口对应 `POST /tardis/v1/videos`、`GET /tardis/v1/videos/{id}`、
+`GET /tardis/v1/videos/{id}/content`；请求使用 `Authorization: Bearer <token>`、
+`Content-Type: application/json`、`X-Request-ID` 和建议的 `Idempotency-Key`。创建成功
+返回 `202`，状态接口返回 `queued/running/succeeded/failed/cancelled`，建议每 2--5 秒
+轮询并遵循 `Retry-After`；常见故障为 `401/403/404/409/422/429/503/504`。
+
+公网节点的 `web-server` 只负责 JDK HTTP 运维接口和 Nginx 前置，不承载 GPU 推理。
+默认应用端口为 `8080`、Nginx 端口为 `80`（生产环境改为 TLS `443`），核心配置为：
+
+```nginx
+upstream tardis_app { server 127.0.0.1:8080; keepalive 16; }
+server {
+  listen 80;
+  location / { proxy_pass http://tardis_app; proxy_http_version 1.1;
+    proxy_set_header Host $host; proxy_set_header X-Request-ID $request_id;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; }
+  location /tardis/ { proxy_pass http://127.0.0.1:18080/;
+    proxy_buffering off; proxy_read_timeout 120s; }
+}
+```
+
+GPU 主机通过 SSH 反向隧道主动出站，网关只监听回环端口：
+
+```bash
+ssh -NT -o ExitOnForwardFailure=yes -o ServerAliveInterval=30 \
+  -o ServerAliveCountMax=3 -R 127.0.0.1:18080:127.0.0.1:8000 \
+  tunnel@gateway.example.com
+```
+
+启动运维前置：`cd web-server && mvn package && java -jar target/tardis-webserver.jar`；
+容器方式为 `docker compose up --build`。SSH 账号应仅允许受限 remote forwarding，
+公网不暴露 GPU 端口、管理端点或本地绝对路径。
 
 ## 实机演示
 
@@ -355,7 +431,7 @@ TARDIS_DATASET=openvid bash scripts/train.sh
 TARDIS_DATASET=seedance bash scripts/train.sh
 ```
 
-常用覆盖项：
+快速 smoke 覆盖项（只用于检查路径和张量形状，不用于正式性能或质量结论）：
 
 ```bash
 TARDIS_EPOCHS=20 \

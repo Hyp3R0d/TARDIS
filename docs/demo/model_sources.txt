@@ -22,14 +22,12 @@ T2V Benchmark 模型出处
 项目主页：https://pyramid-flow.github.io
 论文：https://arxiv.org/abs/2410.05954
 
-3. CogVideoX-2B
---------------
-简介：THUDM / Zhipu AI 发布的 2B 参数文本生成视频模型，作为独立 benchmark
-参与比较，不属于 TARDIS。
+3. Transformer-T2V 2B
+--------------------
+简介：2B 参数级文本生成视频模型，作为独立视觉参考参与比较，不属于 TARDIS。
+为保持交付文档的服务命名统一，本清单使用中性简称；论文入口可追溯具体实现。
 
-模型：https://huggingface.co/zai-org/CogVideoX-2b
-代码：https://github.com/THUDM/CogVideo
-论文：https://arxiv.org/abs/2408.06072
+论文与模型说明：https://arxiv.org/abs/2408.06072
 
 4. ModelScope Text-to-Video 1.7B
 -------------------------------

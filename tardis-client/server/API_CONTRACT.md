@@ -1,7 +1,7 @@
 # TARDIS Studio proxy contract
 
-The browser talks only to the local Express server. The server keeps the
-BigModel credential private and forwards the documented asynchronous video API.
+The browser talks only to the local Express server. The proxy keeps the TARDIS
+inference credential private and forwards the documented asynchronous video API.
 
 ## Create
 
@@ -23,20 +23,21 @@ BigModel credential private and forwards the documented asynchronous video API.
 
 `prompt` is required and is limited to 512 characters. `imageData` is optional,
 but when present it must be a PNG/JPEG Data URL whose decoded bytes are at most
-5 MB. The proxy maps this to BigModel's `image_url` field. The response is a
+5 MB. The proxy maps this to the TARDIS service's reference-image field. The response is a
 small client-facing envelope containing `id`, `requestId`, `taskStatus`, and
 `model`.
 
-The upstream request is sent to
-`https://open.bigmodel.cn/api/paas/v4/videos/generations` with
-`model: cogvideox-3`. The API key is read only from `ZHIPU_API_KEY` in the
+The upstream request is sent to the configured TARDIS inference base URL at
+`/tardis/v1/videos` with `model: tardis`. The bearer credential is read only
+from `TARDIS_INFERENCE_API_KEY` (or an equivalent secret-manager entry) in the
 server environment; it is never accepted from the browser.
 
 ## Poll
 
 `GET /api/generations/:id`
 
-The proxy calls `GET https://open.bigmodel.cn/api/paas/v4/async-result/{id}`.
+The proxy calls `GET /tardis/v1/videos/{id}` on the configured TARDIS inference
+service.
 The normalized response is:
 
 ```json
@@ -46,7 +47,7 @@ The normalized response is:
   "videoUrl": "https://.../video.mp4",
   "coverUrl": "https://.../cover.jpg",
   "error": null,
-  "model": "cogvideox-3"
+  "model": "tardis"
 }
 ```
 
