@@ -209,7 +209,7 @@ ssh -NT -o ExitOnForwardFailure=yes -o ServerAliveInterval=30 \
 
 | 训练与服务端 | Web/SSH 反向代理服务 | 推理评测 |
 | --- | --- | --- |
-| ![TARDIS training console](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/runtime/training-console.gif) | ![TARDIS web bridge](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/runtime/web-bridge.gif) | ![TARDIS inference console](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/runtime/inference-console.gif) |
+| ![TARDIS training console](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/runtime/training-console.gif) | ![TARDIS SSH reverse proxy service](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/runtime/ssh-reverse-proxy.gif) | ![TARDIS inference console](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/runtime/inference-console.gif) |
 
 桌面端创作流程（参考图预览、提交、轮询和结果归档）：
 
@@ -226,7 +226,7 @@ ssh -NT -o ExitOnForwardFailure=yes -o ServerAliveInterval=30 \
 | 原始素材（交付目录外） | README 展示副本 |
 | --- | --- |
 | `document_materials/perform/train.mp4` | `docs/demo/runtime/training-console.gif` |
-| `document_materials/perform/web_server.mp4` | `docs/demo/runtime/web-bridge.gif` |
+| `document_materials/perform/web_server.mp4` | `docs/demo/runtime/ssh-reverse-proxy.gif` |
 | `document_materials/perform/infer.mp4` | `docs/demo/runtime/inference-console.gif` |
 | `document_materials/perform/TARDIS_Client_Demo_Results/` | `docs/demo/client/` |
 | `document_materials/perform/videos_20s/*.mp4` | `docs/demo/batch/gif/*.gif` |
