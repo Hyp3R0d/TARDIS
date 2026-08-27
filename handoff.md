@@ -4,7 +4,7 @@
 交接对象：后续实验、复核和论文撰写 Agent
 
 本文是当前项目的技术事实源。后续 Agent 应先读本文件、`README.md`、
-`appendix/开发prompt.txt`、`appendix/创新点.md`、`docs/datasets.md` 和交付包 README。
+`appendix/development_prompt.txt`、README 的 TARDIS 方法章节、`docs/datasets.md` 和交付包 README。
 代码与真实实验产物优先于宣传性描述；没有对应 raw ledger、日志和校验结果的结论，不得写成
 “已达到 SOTA”。
 
@@ -208,11 +208,9 @@ SOTA 判定面。三个数据集 validation 权重全部锁定后，才统一启
 ```text
 /home/TARDIS/
 ├── appendix/
-│   ├── 赛题要求.md                 赛题原始要求
-│   ├── 赛题要求.pdf                赛题 PDF
-│   ├── 开发prompt.txt              当前工程约束与验收规则
-│   ├── 创新点.md                   TARDIS 主方法设计稿
-│   └── 参考搜索范围.md              相关工作与检索边界
+│   ├── competition_requirements.md  赛题原始要求
+│   ├── competition_requirements.pdf 赛题 PDF
+│   └── development_prompt.txt       当前工程约束与验收规则
 ├── docs/
 │   ├── datasets.md                 本地数据下载、manifest、划分
 │   ├── train.md                    Train 参数与恢复说明
@@ -707,7 +705,7 @@ stretch 目标。阈值只能在固定 manifest、固定 split、固定 metric p
 
 ### Phase 0：协议锁定和泄漏审计
 
-1. 读取本文件与 `appendix/创新点.md`，确认 prompt-only Apply 边界。
+1. 读取本文件与 README 的 TARDIS 方法章节，确认 prompt-only Apply 边界。
 2. 对三个 manifest 计算 record id、media hash、caption hash 的 train/validation/test 交集，
    必须为空。
 3. 固定 `split_seed=3407`、`test_size=512`、`validation_size=256`，生成一份不可变实验
@@ -1004,7 +1002,7 @@ outputs/apply/<dataset>/<timestamp>/
 在提出最终 SOTA 方案前，按以下顺序执行并把结果写入交接报告：
 
 ```text
-[ ] 读完 appendix/开发prompt.txt 和 appendix/创新点.md
+[ ] 读完 appendix/development_prompt.txt 和 README 的 TARDIS 方法章节
 [ ] 检查三源 manifest 的 train/val/test id/hash 无交集
 [x] 用 identity/static/repeated-frame 建立首轮指标 sanity table
 [ ] 在 validation 上验证 TAR energy ratio 和 quotient energy ratio
@@ -1775,7 +1773,7 @@ baseline_score - candidate_score < 0.002 -> 判定平台期并停止
 
 ## 33. 2026-08-14 协议校准与恢复游标修复
 
-当前执行规范已与最新 `appendix/开发prompt.txt` 对齐，并以 `t2v_sota.md` 的校准版本为操作
+当前执行规范已与最新 `appendix/development_prompt.txt` 对齐，并以 `t2v_sota.md` 的校准版本为操作
 文档：
 
 ```text
@@ -1818,7 +1816,7 @@ target-first 规则决定停止、回滚或追加下一轮。
 
 ## 34. 2026-08-14 t2v_sota 最终校准后运行状态
 
-已再次逐项核对 `appendix/开发prompt.txt`、用户后续汇总要求、`t2v_sota.md` 与当前代码。
+已再次逐项核对 `appendix/development_prompt.txt`、用户后续汇总要求、`t2v_sota.md` 与当前代码。
 `t2v_sota.md` 已新增“2026-08-14 最终校准结果”表，明确当前唯一执行口径：
 
 ```text
@@ -1883,7 +1881,7 @@ Seedance 训练，也没有影响当前 DataVerse run；后者在修复完成时
 
 ## 36. 2026-08-14 当前接管状态复核
 
-本轮重新核对了用户汇总要求、`appendix/开发prompt.txt`、`t2v_sota.md`、`source_audit.md`、
+本轮重新核对了用户汇总要求、`appendix/development_prompt.txt`、`t2v_sota.md`、`source_audit.md`、
 当前代码和运行状态。`t2v_sota.md` 的“2026-08-14 最终校准结果”继续作为活动协议，冲突处理
 顺序为：用户最新标准 -> 开发 prompt 的未被后续指令覆盖部分 -> 本交接文档活动章节 ->
 经过测试的代码。旧历史中的 LPIPS `0.30`、固定轮数、训练期间 test 和 `60%-90%` 显存口径

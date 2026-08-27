@@ -8,7 +8,7 @@
 
 本文中的旧实验记录、示例预算和交付草图，均受以下当前项目标准覆盖：
 
-1. 优先级依次为：用户最新要求与 `appendix/开发prompt.txt`、`handoff.md` 的最新审计章节、已测试的当前代码和测试、本文其余内容。发现冲突时必须按此顺序执行，并把冲突写入 `TARDIS_SOTA/reports/source_audit.md`。
+1. 优先级依次为：用户最新要求与 `appendix/development_prompt.txt`、`handoff.md` 的最新审计章节、已测试的当前代码和测试、本文其余内容。发现冲突时必须按此顺序执行，并把冲突写入 `TARDIS_SOTA/reports/source_audit.md`。
 2. 三个数据集独立运行：一个 Train/Infer 进程只允许使用一个数据集；最终报告可以离线提供三个数据集的展示平均值，但该平均值不能进入训练、调度、权重选择或 SOTA 判定。
 3. 训练每个 epoch 必须完整遍历该数据集的 `7232` 条 train records，并在同一 epoch 后完整遍历 `256` 条 validation records；不能把截断、抽样或 batch 诊断指标写成正式 validation 结果。
 4. 当前 validation-only 选择协议固定为：DataVerse `TC<=0.060`、OpenVid `TC<=0.070`、Seedance `TC<=0.100`，三个数据集均为 `LPIPS<=0.60`；分数为 `0.625*(TC/TC_target)+0.375*(LPIPS/0.60)`，越低越好，达标状态优先。
@@ -21,7 +21,7 @@
 
 ## 0.2 2026-08-14 最终校准结果
 
-下表是本轮接管后逐项核对 `appendix/开发prompt.txt`、用户后续明确要求、`handoff.md`、
+下表是本轮接管后逐项核对 `appendix/development_prompt.txt`、用户后续明确要求、`handoff.md`、
 当前代码与测试所得的唯一有效执行协议。后文历史记录若与本表冲突，一律以本表为准。
 
 | 项目 | 当前唯一有效规则 |
@@ -39,7 +39,7 @@
 | 资源目标 | Train/Infer 显存占总显存 `60%-85%`，GPU 利用率尽量保持高位，并记录真实资源与吞吐数据 |
 | 状态维护 | 不维护或恢复 `worklist.md`；持续维护 `handoff.md`、事件账本、候选账本和 `pipeline_state.json` |
 
-`appendix/开发prompt.txt` 末尾仍保留的 `worklist.md` 句子属于早期需求，已被用户后续“无需
+`appendix/development_prompt.txt` 末尾仍保留的 `worklist.md` 句子属于早期需求，已被用户后续“无需
 worklist，继续维护 handoff”的明确指令覆盖。除此之外，当前调优协议与开发 prompt 的最新
 数据、接口、validation-only、资源和本地存储要求一致。
 
@@ -68,8 +68,7 @@ Agent 的职责不是只写方案，而是持续接管代码审计、实验设�
 
 - `handoff.md`
 - `<TARDIS_ROOT>/README.md`
-- `<TARDIS_ROOT>/appendix/开发prompt.txt`
-- `<TARDIS_ROOT>/appendix/创新点.md`
+- `<TARDIS_ROOT>/appendix/development_prompt.txt`
 - `<TARDIS_ROOT>/docs/datasets.md`
 - `<TARDIS_ROOT>/docs/train.md`
 - `<TARDIS_ROOT>/docs/infer.md`

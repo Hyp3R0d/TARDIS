@@ -127,6 +127,36 @@ clean 帧用于判断风格、构图和细节，annotated 帧用于定位 LPIPS 
 
 完整素材说明保留在 [`docs/demo/model_sources.txt`](docs/demo/model_sources.txt)。
 
+## 实机演示
+
+以下 GIF 是从交付目录中的真实录屏 MP4 截取的短片段，均标记为客户端/服务端演示结果。GIF 仅用于 README 展示，原始录屏仍保存在项目外的 `document_materials/perform/` 中。
+
+| 训练与服务端 | Web/SSH 反向代理服务 | 推理评测 |
+| --- | --- | --- |
+| ![TARDIS training console](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/runtime/training-console.gif) | ![TARDIS SSH reverse proxy service](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/runtime/ssh-reverse-proxy.gif) | ![TARDIS inference console](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/runtime/inference-console.gif) |
+
+桌面端创作流程（参考图预览、提交、轮询和结果归档）：
+
+![TARDIS Studio desktop walkthrough](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/client/tardis-desktop-walkthrough.gif)
+
+客户端静态演示截图：
+
+| 参考图与参数 | 生成中 | 生成结果与归档 |
+| --- | --- | --- |
+| ![Reference image](docs/demo/client/desktop-packaged-reference.png) | ![Processing](docs/demo/client/desktop-packaged-processing.png) | ![Result](docs/demo/client/desktop-packaged-result.png) |
+
+演示素材索引：
+
+| 原始素材（交付目录外） | README 展示副本 |
+| --- | --- |
+| `document_materials/perform/train.mp4` | `docs/demo/runtime/training-console.gif` |
+| `document_materials/perform/web_server.mp4` | `docs/demo/runtime/ssh-reverse-proxy.gif` |
+| `document_materials/perform/infer.mp4` | `docs/demo/runtime/inference-console.gif` |
+| `document_materials/perform/TARDIS_Client_Demo_Results/` | `docs/demo/client/` |
+| `document_materials/perform/videos_20s/*.mp4` | `docs/demo/batch/gif/*.gif` |
+
+原始 MP4 和客户端演示截图保留在交付资料目录中；仓库只保留压缩后的 GIF、PNG 和 JPG，避免把大文件写入源码仓库。批量视频的 prompt 与文件名对应关系见交付资料中的 `videos_20s/description/12_video_prompts.txt`。
+
 ## 部署与接口速查
 
 本节是 README 级别的可复制入口；字段级约束、错误包络和安全边界以仓库外的
@@ -147,6 +177,101 @@ TARDIS_DATASET=dataverse TARDIS_CHECKPOINT=$TARDIS_STORAGE_ROOT/checkpoints/data
 TARDIS_DATASET=dataverse TARDIS_CHECKPOINT=$TARDIS_STORAGE_ROOT/checkpoints/dataverse/<run>/best.pt \
   TARDIS_PROMPT='A cinematic robot walks through a rainy neon street' bash scripts/apply.sh
 ```
+
+### 预训练衔接、后训练与微调
+
+像素生成先验（VAE、文本编码器和首帧先验）以冻结权重加载；本仓库训练的是时域增量参数，包括 `motion`、`transport`、`state`、`router`、`lite_corrector`、`keyframe_residual_dit`、residual teacher/student 和 `metric_adapter`。三个数据集分别建立运行目录、优化器状态和 EMA，禁止在同一训练进程中混合数据源。正式数据契约为 `512x512`、16 帧窗口、30 FPS metadata、split seed `3407`。
+
+| 阶段 | 可训练模块 | 输入窗口 | 作用 |
+| --- | --- | ---: | --- |
+| 预训练衔接 | `keyframe_residual_dit`、`lite_corrector` | 1 帧 | 从 identity-preserving 初值启动增量分支 |
+| 时序适配 | motion、transport、state、lite | 16 帧 | 学习运动传播、可见性和状态更新 |
+| 后训练 | router、residual teacher/student、metric adapter 逐阶段解冻 | 16 帧 | 闭环、因果蒸馏以及 TC/LPIPS 对齐 |
+| 部署推理 | EMA shadow（无梯度） | 16 帧或按时长展开 | 两步 endpoint 轨迹生成 MP4 |
+
+后训练由 `scripts/train.sh` 统一承载，不需要另一个训练服务。`TARDIS_TRAIN_MODE` 选择参数所有权：`keyframe_only` 只训练关键帧残差 DiT 和轻量校正器，`full_temporal` 训练完整时域模块；`TARDIS_CURRICULUM_PROFILE` 可选 `full`、`transport`、`closed_loop_motion` 或 `metric_alignment`，用于完整课程或针对性诊断。后训练以 optimizer step 计数，默认 `20 x 64 / 4 = 320` 步，课程比例固定为 `5%/5%/10%/20%/20%/40%`：
+
+| 课程阶段 | 预算 | teacher forcing | residual steps | 新增目标 |
+| --- | ---: | ---: | ---: | --- |
+| `transport_warmup` | 5% | 1.00 | 0 | diffusion、transport、flow、visibility、lite |
+| `router_calibration` | 5% | 1.00 | 0 | risk field、survival 和 active-token budget |
+| `residual_teacher` | 10% | 1.00 | 4 | 法向创新残差教师 |
+| `closed_loop` | 20% | 1.00 → 0.25 | 4 | 自身历史状态、warp consistency、long-term drift |
+| `crcd` | 20% | 0.25 → 0 | 1 | teacher/student 因果残差蒸馏 |
+| `metric_alignment` | 40% | 0 | 1 | TC、LPIPS、文本对齐和 `metric_adapter`；选择 `best.pt` |
+
+#### P0：关键帧衔接
+
+```bash
+cd /path/to/project
+source .venv/bin/activate
+export TARDIS_STORAGE_ROOT=/root/autodl-tmp/TARDIS
+export TARDIS_DATASETS_FILE=/path/to/project/datasets.txt
+export TARDIS_CHECKPOINT_ROOT="$TARDIS_STORAGE_ROOT/checkpoints"
+export TARDIS_OUTPUT_ROOT="$TARDIS_STORAGE_ROOT/outputs"
+TARDIS_DATASET=dataverse \
+TARDIS_TRAIN_MODE=keyframe_only \
+TARDIS_CURRICULUM_PROFILE=transport \
+TARDIS_EPOCHS=4 TARDIS_STEPS_PER_EPOCH=64 \
+TARDIS_MICRO_BATCH_SIZE=1 TARDIS_GRADIENT_ACCUMULATION_STEPS=4 \
+TARDIS_VALIDATION_BATCH_SIZE=2 TARDIS_PRECISION=bf16 \
+bash scripts/train.sh
+```
+
+#### P1：完整时序后训练
+
+```bash
+TARDIS_DATASET=dataverse \
+TARDIS_WARM_START="$TARDIS_CHECKPOINT_ROOT/dataverse/<p0-run>/best.pt" \
+TARDIS_WARM_START_USE_EMA=1 \
+TARDIS_TRAIN_MODE=full_temporal TARDIS_CURRICULUM_PROFILE=full \
+TARDIS_EPOCHS=20 TARDIS_STEPS_PER_EPOCH=64 \
+TARDIS_MICRO_BATCH_SIZE=1 TARDIS_GRADIENT_ACCUMULATION_STEPS=4 \
+TARDIS_VALIDATION_BATCH_SIZE=2 TARDIS_NUM_FRAMES=16 \
+TARDIS_DIFFUSION_STEPS=2 TARDIS_ACTIVE_RATIO=0.35 \
+TARDIS_EMA_DECAY=0.999 bash scripts/train.sh
+```
+
+将 `TARDIS_DATASET` 替换为 `openvid` 或 `seedance` 即可分别训练另外两个数据集。`TARDIS_WARM_START` 只加载权重，不恢复优化器；精确续训则使用 `TARDIS_RESUME`，并要求数据集、world size、结构签名和精度完全一致：
+
+```bash
+TARDIS_DATASET=openvid \
+TARDIS_RESUME="$TARDIS_CHECKPOINT_ROOT/openvid/<run>/latest.pt" \
+TARDIS_PRECISION=bf16 bash scripts/train.sh
+```
+
+跨数据集 warm-start 是显式的 CLI 接口，而不是脚本环境变量。需要时直接调用训练模块并传入 `--allow-cross-dataset-warm-start`；同数据集 warm-start 不需要该开关：
+
+```bash
+torchrun --standalone --nproc_per_node=1 -m tardis.cli.train \
+  --dataset openvid --datasets-file "$TARDIS_DATASETS_FILE" \
+  --warm-start "$TARDIS_CHECKPOINT_ROOT/dataverse/<run>/best.pt" \
+  --allow-cross-dataset-warm-start \
+  --curriculum-profile metric_alignment --train-mode full_temporal \
+  --precision bf16 --epochs 6 --steps-per-epoch 64 \
+  --micro-batch-size 1 --gradient-accumulation-steps 4 \
+  --validation-batch-size 2
+```
+
+后训练的主要可调接口如下；其余模型结构参数仍沿用本节上方的统一训练参数，并且必须与 checkpoint 签名一致：
+
+| 参数 | 默认值 | 接口语义 |
+| --- | ---: | --- |
+| `TARDIS_TRAIN_MODE` | `full_temporal` | `keyframe_only` 或 `full_temporal` |
+| `TARDIS_CURRICULUM_PROFILE` | `full` | 完整、transport、闭环或指标对齐课程 |
+| `TARDIS_WARM_START` | 空 | 只加载指定 checkpoint 权重 |
+| `TARDIS_WARM_START_USE_EMA` | `1` | warm-start 使用 EMA shadow |
+| `TARDIS_RESUME` | 空 | 恢复 optimizer、scheduler、AMP scaler、EMA、课程游标和 RNG |
+| `TARDIS_EPOCHS` / `TARDIS_STEPS_PER_EPOCH` | `20 / 64` | 总课程预算来源 |
+| `TARDIS_MICRO_BATCH_SIZE` | `2` | 每卡 micro-batch；正式后训练常设为 `1` |
+| `TARDIS_GRADIENT_ACCUMULATION_STEPS` | `2` | 梯度累计；正式后训练常设为 `4` |
+| `TARDIS_VALIDATION_BATCH_SIZE` | `8` | 完整 validation 的批大小 |
+| `TARDIS_EMA_DECAY` | `0.999` | 时域参数 EMA 衰减，冻结先验不进入 shadow |
+| `TARDIS_TC_LOSS_WEIGHT` / `TARDIS_LPIPS_LOSS_WEIGHT` | `5.0 / 3.0` | `metric_alignment` 的双目标权重 |
+| `TARDIS_CRCD_LOSS_WEIGHT` | `1.0` | 因果残差蒸馏权重 |
+| `TARDIS_PRECISION` | `bf16` | `bf16`、`fp16` 或 `fp32`；`fp16` 才启用 GradScaler |
+
+AdamW 使用 learning rate `1e-4`、weight decay `1e-2`、warmup `64` steps、global-norm clipping `1.0`；验证时临时交换 EMA 参数，完整 validation 上 TC/LPIPS 组合分数改善才更新 `best.pt`。test split 不参与后训练、early stopping、调参或权重选择。训练完成后沿用本 README 的 `infer.sh` 和 `apply.sh` 接口，默认加载 EMA checkpoint；运行记录应保存 run manifest、数据 manifest hash、结构签名、checkpoint SHA-256、TC/LPIPS 以及资源统计。
 
 桌面客户端只访问本机代理 `http://127.0.0.1:8787`；代理再向 TARDIS 推理服务端发起
 HTTPS 请求，密钥只放在服务端环境变量或桌面端安全存储中。上行创建任务的最小字段为
@@ -202,36 +327,6 @@ ssh -NT -o ExitOnForwardFailure=yes -o ServerAliveInterval=30 \
 启动运维前置：`cd web-server && mvn package && java -jar target/tardis-webserver.jar`；
 容器方式为 `docker compose up --build`。SSH 账号应仅允许受限 remote forwarding，
 公网不暴露 GPU 端口、管理端点或本地绝对路径。
-
-## 实机演示
-
-以下 GIF 是从交付目录中的真实录屏 MP4 截取的短片段，均标记为客户端/服务端演示结果。GIF 仅用于 README 展示，原始录屏仍保存在项目外的 `document_materials/perform/` 中。
-
-| 训练与服务端 | Web/SSH 反向代理服务 | 推理评测 |
-| --- | --- | --- |
-| ![TARDIS training console](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/runtime/training-console.gif) | ![TARDIS SSH reverse proxy service](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/runtime/ssh-reverse-proxy.gif) | ![TARDIS inference console](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/runtime/inference-console.gif) |
-
-桌面端创作流程（参考图预览、提交、轮询和结果归档）：
-
-![TARDIS Studio desktop walkthrough](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/client/tardis-desktop-walkthrough.gif)
-
-客户端静态演示截图：
-
-| 参考图与参数 | 生成中 | 生成结果与归档 |
-| --- | --- | --- |
-| ![Reference image](docs/demo/client/desktop-packaged-reference.png) | ![Processing](docs/demo/client/desktop-packaged-processing.png) | ![Result](docs/demo/client/desktop-packaged-result.png) |
-
-演示素材索引：
-
-| 原始素材（交付目录外） | README 展示副本 |
-| --- | --- |
-| `document_materials/perform/train.mp4` | `docs/demo/runtime/training-console.gif` |
-| `document_materials/perform/web_server.mp4` | `docs/demo/runtime/ssh-reverse-proxy.gif` |
-| `document_materials/perform/infer.mp4` | `docs/demo/runtime/inference-console.gif` |
-| `document_materials/perform/TARDIS_Client_Demo_Results/` | `docs/demo/client/` |
-| `document_materials/perform/videos_20s/*.mp4` | `docs/demo/batch/gif/*.gif` |
-
-原始 MP4 和客户端演示截图保留在交付资料目录中；仓库只保留压缩后的 GIF、PNG 和 JPG，避免把大文件写入源码仓库。批量视频的 prompt 与文件名对应关系见交付资料中的 `videos_20s/description/12_video_prompts.txt`。
 
 ## 系统总览
 
@@ -328,6 +423,9 @@ project/
 ├── scripts/                  # deployment-oriented shell entry points
 ├── docs/                     # train/infer/apply/dataset documentation
 │   └── demo/                 # README GIFs and selected visual evidence
+├── appendix/                 # archival competition and development documents
+│   ├── competition_requirements.md/.pdf
+│   └── development_prompt.txt
 ├── tests/                    # unit and integration tests
 ├── data/                     # .gitkeep only; large datasets stay on data disk
 ├── checkpoints/              # .gitkeep only; large weights stay on data disk
@@ -683,5 +781,8 @@ find "$TARDIS_CHECKPOINT_ROOT" -name best.pt -print
 - [docs/infer.md](docs/infer.md)：全量 test split、指标和 showcase
 - [docs/apply.md](docs/apply.md)：prompt-only causal rollout
 - [docs/datasets.md](docs/datasets.md)：manifest、归档和数据划分
+- [appendix/competition_requirements.md](appendix/competition_requirements.md)：赛题要求的可检索 Markdown 归档
+- [appendix/competition_requirements.pdf](appendix/competition_requirements.pdf)：赛题要求原始 PDF 归档
+- [appendix/development_prompt.txt](appendix/development_prompt.txt)：项目开发说明与设计约束归档
 - 本 README 已汇总桌面客户端、JDK HTTP 服务、nginx、Docker 和 SSH 反向代理服务说明
 - [docs/demo/](docs/demo/)：客户端演示结果、实机录屏 GIF、批量推理缩略图和视觉对比帧
