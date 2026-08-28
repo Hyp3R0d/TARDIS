@@ -44,9 +44,7 @@ TARDIS 是一个面向连续视频生成的完整工程：GPU 服务端负责训
 </div>
 
 <div align="center">
-  <strong>s05 realistic kitchen</strong>
-  <br>
-  <img src="docs/demo/quality/qual_s05_realistic_kitchen.png" alt="Controlled s05 realistic kitchen" width="100%">
+  <img src="docs/demo/batch/batch_inference_12video_3x4.png" alt="Twelve batch inference outputs arranged as a 3 by 4 contact sheet" width="100%">
 </div>
 
 <div align="center">
