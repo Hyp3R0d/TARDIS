@@ -37,6 +37,10 @@ TARDIS 是一个面向连续视频生成的完整工程：GPU 服务端负责训
 
 下面的对比图使用统一 prompt、seed=42 和帧位置，保持六模型列与相同的画布条件。主展示图优先采用高分辨率三维写实场景，便于直接观察主体边界、背景结构、光影建模以及局部 LPIPS 与 TC 标注。
 
+<p align="center">
+  <img src="docs/demo/quality/tardis_clean_annotated_2x4.png" alt="TARDIS clean and annotated visual audit across four scenes" width="100%">
+</p>
+
 <div align="center">
   <strong>3D high-fidelity comparison: laboratory, cinematic street, astronaut capsule</strong>
   <br>
