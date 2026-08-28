@@ -429,13 +429,15 @@ project/
 │   └── demo/                 # README GIFs and selected visual evidence
 ├── appendix/                 # archival competition and development documents
 │   ├── competition_requirements.md/.pdf
-│   └── development_prompt.txt
+│   └── (historical records only)
 ├── tests/                    # unit and integration tests
 ├── data/                     # .gitkeep only; large datasets stay on data disk
 ├── checkpoints/              # .gitkeep only; large weights stay on data disk
 ├── outputs/                  # .gitkeep only; generated outputs stay on data disk
 ├── web-server/               # JDK HTTP service and nginx configuration
 ├── tardis-client/            # Electron + React desktop application
+├── 实验方案.md                 # benchmark selection and experiment protocol
+├── 技术文档.md                 # deployment, protocol, and operations reference
 ├── datasets.txt              # canonical dataset roots (edit per machine)
 ├── pyproject.toml            # Python package and dependency contract
 ├── CITATION.cff              # citation metadata
@@ -787,6 +789,7 @@ find "$TARDIS_CHECKPOINT_ROOT" -name best.pt -print
 - [docs/datasets.md](docs/datasets.md)：manifest、归档和数据划分
 - [appendix/competition_requirements.md](appendix/competition_requirements.md)：赛题要求的可检索 Markdown 归档
 - [appendix/competition_requirements.pdf](appendix/competition_requirements.pdf)：赛题要求原始 PDF 归档
-- [appendix/development_prompt.txt](appendix/development_prompt.txt)：项目开发说明与设计约束归档
+- [实验方案.md](实验方案.md)：benchmark 选型、数据划分与实验方案
+- [技术文档.md](技术文档.md)：训练、推理、协议和 SSH 反向代理服务部署说明
 - 本 README 已汇总桌面客户端、JDK HTTP 服务、nginx、Docker 和 SSH 反向代理服务说明
 - [docs/demo/](docs/demo/)：客户端演示结果、实机录屏 GIF、批量推理缩略图和视觉对比帧
