@@ -35,12 +35,12 @@ TARDIS 是一个面向连续视频生成的完整工程：GPU 服务端负责训
 
 ### 2. 受控视觉对比
 
-下面的对比图使用统一 prompt、seed=42 和帧位置，保持六模型列与相同的画布条件。不同场景覆盖像素城市、现实厨房、赛博朋克雨巷、黑色电影、美式卡通客厅、黏土夜市、PVC 实验室、太空舱和铅笔咖啡馆，便于直接观察主体边界、背景结构、局部 LPIPS 与 TC 标注。
+下面的对比图使用统一 prompt、seed=42 和帧位置，保持六模型列与相同的画布条件。主展示图优先采用高分辨率三维写实场景，便于直接观察主体边界、背景结构、光影建模以及局部 LPIPS 与 TC 标注。
 
 <div align="center">
-  <strong>s04 pixel-art robot city</strong>
+  <strong>3D high-fidelity comparison: laboratory, cinematic street, astronaut capsule</strong>
   <br>
-  <img src="docs/demo/quality/qual_s04_pixel_robot_city.png" alt="Controlled s04 pixel-art robot city" width="100%">
+  <img src="docs/demo/quality/qual_triptych_s10_s06_s12.png" alt="High-resolution 3D qualitative comparison across TARDIS and five visual baselines" width="100%">
 </div>
 
 <div align="center">
