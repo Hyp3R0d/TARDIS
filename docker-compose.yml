@@ -1,0 +1,42 @@
+services:
+  tardis-gpu:
+    profiles: ["gpu"]
+    build:
+      context: .
+      target: ${TARDIS_TARGET:-latest}
+    image: tardis:${TARDIS_TARGET:-latest}
+    container_name: tardis-gpu
+    gpus: all
+    ipc: host
+    shm_size: "16gb"
+    environment:
+      TARDIS_NPROC: ${TARDIS_NPROC:-1}
+      TARDIS_OUTPUT_ROOT: /workspace/outputs
+      TARDIS_CHECKPOINT_ROOT: /workspace/checkpoints
+    volumes:
+      - ./checkpoints:/workspace/checkpoints
+      - ./outputs:/workspace/outputs
+      - ./data:/workspace/data
+    ulimits:
+      memlock: -1
+      stack: 67108864
+    restart: "no"
+
+  webserver:
+    build:
+      context: ./web-server
+    container_name: tardis-webserver
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:alpine
+    container_name: tardis-nginx
+    volumes:
+      - ./web-server/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+      - "80:80"
+    depends_on:
+      - webserver
+    restart: unless-stopped
