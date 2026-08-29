@@ -135,6 +135,8 @@ TARDIS 是一个面向连续视频生成的完整工程：GPU 服务端负责训
 | --- | --- | --- |
 | ![准备创作](docs/demo/client/desktop-packaged-reference.png) | ![生成中](docs/demo/client/desktop-packaged-processing.png) | ![查看与保存结果](docs/demo/client/desktop-packaged-result.png) |
 
+除 Electron 桌面客户端外，本项目还采用华为 UI Engine（HarmonyOS ArkUI 声明式 UI 框架）开发了移动端创作客户端，源码位于 [`UI/`](UI/) 目录。该客户端复刻桌面端完整创作链路：提示词输入（512 字符上限）、参考图选择与预览、画质/画幅/帧率/时长/音效设置、异步任务提交与状态轮询、生成完成后在应用内播放视频，并保留本地创作记录；接口契约与 `tardis-client` 一致（`POST /api/generations` 创建任务、`GET /api/generations/{id}` 轮询状态）。使用 DevEco Studio 打开 `UI/` 目录构建 HAP，即可在 HarmonyOS 手机、平板或 2in1 设备上实机运行。
+
 ## 部署与接口速查
 
 本节是 README 级别的可复制入口；字段级约束、错误包络和安全边界以仓库外的

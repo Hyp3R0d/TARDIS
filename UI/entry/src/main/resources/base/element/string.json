@@ -1,0 +1,16 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "TARDIS Studio 主模块"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "基于华为 ArkUI Engine 的 TARDIS 视频创作客户端"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "TARDIS Studio"
+    }
+  ]
+}

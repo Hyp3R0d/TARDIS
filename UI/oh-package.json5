@@ -1,0 +1,13 @@
+{
+  "name": "tardis-studio",
+  "version": "1.0.0",
+  "description": "TARDIS Studio mobile client built with Huawei ArkUI Engine",
+  "main": "",
+  "author": "TARDIS Team",
+  "license": "Apache-2.0",
+  "dependencies": {},
+  "devDependencies": {
+    "@ohos/hvigor": "5.0.0",
+    "@ohos/hvigor-ohos-plugin": "5.0.0"
+  }
+}
