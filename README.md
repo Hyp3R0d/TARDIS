@@ -6,6 +6,8 @@
 
 ## Transport-Aligned Residual Diffusion in Innovation Subspaces
 
+TARDIS（Transport-Aligned Residual Diffusion in Innovation Subspaces）是一种面向连续视频生成的传输对齐残差扩散框架。它的核心创新是将每个新帧拆分为可由历史状态解释的传输部分，以及真正需要生成的局部创新部分：模型先依据运动与可见性完成跨帧状态对齐，再通过传输轨道的法向分解识别创新残差，并由风险路由器选择需要更新的区域，最后仅对这些稀疏创新 token 执行残差扩散。因果状态更新会把当前结果反馈给下一帧，使主体、物体和场景在连续镜头中保持稳定，同时将计算预算集中于细节变化区域，兼顾时域一致性、感知质量与推理效率。
+
 本项目客户端采用 [HarmonyOS ArkUI 声明式 UI 框架](https://developer.huawei.com/consumer/cn/arkui/) 开发，配套 TARDIS 推理服务端提供连续视频生成能力。
 
 项目的核心原则是：
@@ -13,8 +15,6 @@
 > 先传输可预测世界，再只扩散不可预测事件。
 
 相邻视频帧中的背景、主体和纹理通常可以由历史状态和运动传输解释。TARDIS 先把上一帧生成状态对齐到当前坐标系，再在传输轨道的法向创新子空间中进行稀疏残差扩散，将预算集中到真正需要更新的区域。
-
-TARDIS（Transport-Aligned Residual Diffusion in Innovation Subspaces）是一种面向连续视频生成的传输对齐残差扩散框架。模型先利用历史状态与运动信息完成跨帧传输对齐，再在传输轨道的法向创新子空间中执行稀疏残差扩散，将计算预算集中于真正发生变化的主体、物体与场景区域，从而在保持时域一致性的同时改善感知质量与推理效率。
 
 ## 推理结果集中展示
 
