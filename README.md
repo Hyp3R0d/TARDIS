@@ -1,4 +1,6 @@
-# TARDIS
+<h1 align="center">
+  <img src="docs/demo/tardis_3d_wordmark.svg" alt="TARDIS" width="640">
+</h1>
 
 [GitHub Repository](https://github.com/Hyp3R0d/TARDIS) · [main branch](https://github.com/Hyp3R0d/TARDIS/tree/main)
 
