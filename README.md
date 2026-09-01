@@ -6,7 +6,7 @@
 
 ## Transport-Aligned Residual Diffusion in Innovation Subspaces
 
-TARDIS 是一个面向连续视频生成的完整工程：GPU 服务端负责训练、验证、评测和 prompt-only 推理；`web-server` 提供轻量 HTTP 服务和 nginx 前置，可作为 SSH 反向代理服务的运维前置；`tardis-client` 是采用 [HarmonyOS ArkUI 声明式 UI 框架](https://developer.huawei.com/consumer/cn/arkui/) 开发的桌面创作客户端。
+本项目客户端采用 [HarmonyOS ArkUI 声明式 UI 框架](https://developer.huawei.com/consumer/cn/arkui/) 开发，配套 TARDIS 推理服务端提供连续视频生成能力。
 
 项目的核心原则是：
 
@@ -14,7 +14,7 @@ TARDIS 是一个面向连续视频生成的完整工程：GPU 服务端负责训
 
 相邻视频帧中的背景、主体和纹理通常可以由历史状态和运动传输解释。TARDIS 先把上一帧生成状态对齐到当前坐标系，再在传输轨道的法向创新子空间中进行稀疏残差扩散，将预算集中到真正需要更新的区域。
 
-本仓库是将原 `backbone_server` 内容提升到项目根目录后的统一交付版本。服务端代码现在位于根目录的 `tardis/`、`scripts/`、`tests/` 等目录中；没有保留空的 `backbone_server/` 壳目录。
+TARDIS（Transport-Aligned Residual Diffusion in Innovation Subspaces）是一种面向连续视频生成的传输对齐残差扩散框架。模型先利用历史状态与运动信息完成跨帧传输对齐，再在传输轨道的法向创新子空间中执行稀疏残差扩散，将计算预算集中于真正发生变化的主体、物体与场景区域，从而在保持时域一致性的同时改善感知质量与推理效率。
 
 ## 推理结果集中展示
 
