@@ -4,7 +4,7 @@
 
 ## Transport-Aligned Residual Diffusion in Innovation Subspaces
 
-TARDIS 是一个面向连续视频生成的完整工程：GPU 服务端负责训练、验证、评测和 prompt-only 推理；`web-server` 提供轻量 HTTP 服务和 nginx 前置，可作为 SSH 反向代理服务的运维前置；`tardis-client` 提供可在 Windows 上运行的 Electron 桌面创作客户端。
+TARDIS 是一个面向连续视频生成的完整工程：GPU 服务端负责训练、验证、评测和 prompt-only 推理；`web-server` 提供轻量 HTTP 服务和 nginx 前置，可作为 SSH 反向代理服务的运维前置；`tardis-client` 是采用 [HarmonyOS ArkUI 声明式 UI 框架](https://developer.huawei.com/consumer/cn/arkui/) 开发的桌面创作客户端。
 
 项目的核心原则是：
 
