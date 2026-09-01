@@ -4,17 +4,19 @@
 
 [GitHub Repository](https://github.com/Hyp3R0d/TARDIS) · [main branch](https://github.com/Hyp3R0d/TARDIS/tree/main)
 
-## Transport-Aligned Residual Diffusion in Innovation Subspaces
+## TARDIS 连续视频生成框架
 
-TARDIS（Transport-Aligned Residual Diffusion in Innovation Subspaces）是一种面向连续视频生成的传输对齐残差扩散框架。它的核心创新是将每个新帧拆分为可由历史状态解释的传输部分，以及真正需要生成的局部创新部分：模型先依据运动与可见性完成跨帧状态对齐，再通过传输轨道的法向分解识别创新残差，并由风险路由器选择需要更新的区域，最后仅对这些稀疏创新 token 执行残差扩散。因果状态更新会把当前结果反馈给下一帧，使主体、物体和场景在连续镜头中保持稳定，同时将计算预算集中于细节变化区域，兼顾时域一致性、感知质量与推理效率。
+TARDIS（Transport-Aligned Residual Diffusion in Innovation Subspaces）是一个用于连续视频生成的完整框架。它解决的核心问题很直观：视频相邻画面大多没有变化，如果每一帧都从头生成，就会重复计算，也更容易出现人物、物体和背景抖动。
+
+我们的做法是先把上一帧中可以继续沿用的内容“搬运”到当前帧，再只对真正发生变化的部分进行扩散生成。模型会结合运动信息和可见性判断完成跨帧对齐，把画面分成稳定的传输部分和需要更新的创新部分；风险路由器进一步挑出最值得计算的区域，稀疏残差扩散只处理这些局部变化。生成结果随后写回因果状态，供下一帧继续使用。这样既能减少无效计算，也能让连续镜头中的主体、场景和纹理更加稳定，同时保持清晰的细节和较好的感知质量。
 
 本项目客户端采用 [HarmonyOS ArkUI 声明式 UI 框架](https://developer.huawei.com/consumer/cn/arkui/) 开发，配套 TARDIS 推理服务端提供连续视频生成能力。
 
-项目的核心原则是：
+项目的核心原则可以概括为一句话：
 
 > 先传输可预测世界，再只扩散不可预测事件。
 
-相邻视频帧中的背景、主体和纹理通常可以由历史状态和运动传输解释。TARDIS 先把上一帧生成状态对齐到当前坐标系，再在传输轨道的法向创新子空间中进行稀疏残差扩散，将预算集中到真正需要更新的区域。
+相邻视频帧中的背景、主体和纹理通常可以由历史状态和运动关系解释。TARDIS 先把上一帧的生成状态对齐到当前坐标系，再在传输轨道之外的创新空间中进行稀疏残差扩散，把计算预算留给真正需要更新的区域。
 
 ## 推理结果集中展示
 
@@ -355,14 +357,14 @@ GPU 研究链路（本地或远端 GPU）
 
 服务端本体是 GPU 上的 Python CLI/推理引擎，不是 FastAPI/Flask 常驻 HTTP API。客户端的生成请求由 `tardis-client/server` 直接转发到 TARDIS 推理服务端的异步接口；`web-server` 只承担静态资源和运维接口。若云端部署需要长期 HTTP 入口或反向 SSH 通道，应在部署环境中额外配置受限隧道，并明确映射到实际 API 服务。
 
-## TARDIS 方法
+## 方法怎么工作
 
-TARDIS 将时序生成拆成两个互补部分：
+TARDIS 把连续视频中的每一步生成拆成两个互补动作，读者可以把它理解成“先复用，再补变化”：
 
 1. **TAR（Transport-Aligned Residualization）**：从文本和因果状态预测运动，传输上一帧 latent、短期状态和 anchor，并构造当前帧相对于 transport prior 的残差。
 2. **DIS（Diffusion in Innovation Subspaces）**：通过可见性校准的创新风险路由器选择 active patch，将残差投影到 transport orbit 的法向子空间，仅对风险区域的创新 token 运行稀疏 residual DiT。
 
-推理闭环：
+一次完整的推理过程大致如下：
 
 ```
 prompt
