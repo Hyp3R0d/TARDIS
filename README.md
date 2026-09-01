@@ -643,6 +643,8 @@ ssh -N -T \
 
 ## TARDIS Studio 桌面客户端
 
+客户端界面采用 [HarmonyOS ArkUI 声明式 UI 框架](https://developer.huawei.com/consumer/cn/arkui/) 的设计理念与交互规范，围绕连续视频创作流程组织操作，并与 TARDIS 推理服务端协同完成生成、进度查看和结果管理。
+
 客户端是 Electron + React + Vite 应用，支持：
 
 - prompt 必填，最多 512 个字符；
