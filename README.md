@@ -24,9 +24,9 @@ TARDIS（Transport-Aligned Residual Diffusion in Innovation Subspaces）是一�
 
 这里集中展示 TARDIS 在城市夜景、科幻空间、人物肖像、自然环境与多种艺术风格中的生成效果。可以直接观察画面构图、主体清晰度、光影层次、环境细节和连续镜头的整体观感。
 
-### 1. 十二组生成场景
+### 1. 十六组生成场景
 
-十二组场景从霓虹城市延伸到月面实验室、电影动作场面、自然生灵和幻想世界，集中呈现 TARDIS 面对不同题材时的画面表现。
+十六组场景涵盖霓虹城市、科幻机甲、轨道空间、电影动作、自然生灵和幻想世界，集中呈现 TARDIS 面对不同题材时的画面表现。
 
 | 场景展示 | 场景展示 |
 | --- | --- |
@@ -36,6 +36,8 @@ TARDIS（Transport-Aligned Residual Diffusion in Innovation Subspaces）是一�
 | Action thriller<br>![Action thriller](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/batch/gif/s07_hollywood_action_thriller_20s.gif) | Pixel RPG<br>![Pixel RPG](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/batch/gif/s08_pixel_art_rpg_forest_castle_20s.gif) |
 | Arctic wolf<br>![Arctic wolf](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/batch/gif/s09_wildlife_arctic_wolf_fullbody_v3_10s.gif) | Xianxia cliff<br>![Xianxia cliff](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/batch/gif/s10_xianxia_cliff_20s.gif) |
 | Japan animation<br>![Japan animation](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/batch/gif/s011_animation_japan_5s.gif) | Wildlife close-up<br>![Wildlife close-up](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/batch/gif/s012_wildlife_arctic_wolf_v2_10s.gif) |
+| Cyberpunk operative<br>![Cyberpunk operative](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/batch/gif/tardis_g01_cyberpunk_operative.gif) | Hard-surface mecha<br>![Hard-surface mecha](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/batch/gif/tardis_g02_hard_surface_mecha.gif) |
+| Orbital astronaut<br>![Orbital astronaut](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/batch/gif/tardis_g03_orbital_astronaut.gif) | Snow leopard<br>![Snow leopard](https://raw.githubusercontent.com/Hyp3R0d/TARDIS/main/docs/demo/batch/gif/tardis_g04_snow_leopard.gif) |
 
 ### 2. 画面对比
 
