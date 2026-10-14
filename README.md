@@ -2,7 +2,7 @@
   <img src="docs/demo/tardis_3d_wordmark.svg" alt="TARDIS" width="640">
 </h1>
 
-[GitHub Repository](https://github.com/Hyp3R0d/TARDIS) · [main branch](https://github.com/Hyp3R0d/TARDIS/tree/main)
+[项目说明](docs/project-overview.md) · [GitHub Repository](https://github.com/Hyp3R0d/TARDIS) · [main branch](https://github.com/Hyp3R0d/TARDIS/tree/main)
 
 ## TARDIS 连续视频生成框架
 
